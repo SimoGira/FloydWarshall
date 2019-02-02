@@ -29,23 +29,29 @@ int main(int argc, char* argv[]) {
     floyd_warshall::floyd_warshall(matrix, graph.nV());
 
     //--------------------------------------------------------------------------
+    matrix_t *matrix_h;
+    matrix_h = (float*)malloc(sizeof(float)*graph.nV()*graph.nV());     // input matrix
 
     for (int i = 0; i < graph.nV(); i++) {
       for (int j = 0; j < graph.nV(); j++) {
-        printf("matrix[%d][%d]  \t= %f\n", i, j, matrix[i][j]);
-        printf("matrix[%d]      = %f\n", i* graph.nV() + j, *(*(matrix+i)+j));
-        printf("matrix[%d]      = %f\n", i* graph.nV() + j, *(matrix[i]+j));
+        //printf("%f ", i, j, matrix[i][j]);
+        //printf("matrix[%d]      = %f\n", i* graph.nV() + j, *(*(matrix+i)+j));
+        //printf("matrix[%d]      = %f\n", i* graph.nV() + j, *(matrix[i]+j));
 
-        // TODO mi faccio la mia matrice salvandomi i valori da questa oppure devo trovare un altro modo per referenziare questa
+        matrix_h[i*graph.nV()+j] = matrix[i][j];
+        //printf("%f ", i, j, matrix_h[i*graph.nV()+j]);
+
+        // DONE mi faccio la mia matrice salvandomi i valori da questa oppure devo trovare un altro modo per referenziare questa
 
       }
+      //printf("\n");
     }
 
 
 
     // cudaProfilerStart();
     //
-    // floyd_warshall::parallel_floyd_warshall( ... );
+    floyd_warshall::parallel_floyd_warshall(matrix_h, graph.nV());
     //
     // cudaProfilerStop();
     //--------------------------------------------------------------------------
@@ -53,4 +59,8 @@ int main(int argc, char* argv[]) {
     for (int i = 0; i < graph.nV(); i++)
         delete[] matrix[i];
     delete[] matrix;
+
+    // cleanup memory
+    free(matrix_h);
+
 }

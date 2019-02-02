@@ -4,7 +4,7 @@
 extern "C"
 #endif
   char
-  CHECK_FUNCTION_EXISTS(void);
+  CHECK_FUNCTION_EXISTS();
 #ifdef __CLASSIC_C__
 int main()
 {

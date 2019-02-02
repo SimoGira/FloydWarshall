@@ -50,28 +50,26 @@
 # generated_cubin_file:STRING=<> File to generate.  This argument must be passed
 #                                                   in if build_cubin is true.
 
-cmake_policy(PUSH)
-cmake_policy(SET CMP0007 NEW)
 if(NOT generated_file)
   message(FATAL_ERROR "You must specify generated_file on the command line")
 endif()
 
 # Set these up as variables to make reading the generated file easier
-set(CMAKE_COMMAND "/usr/bin/cmake") # path
-set(source_file "/home/ubuntu/Scaricati/FloydWarshall/src/FloydWarshall.cu") # path
-set(NVCC_generated_dependency_file "/home/ubuntu/Scaricati/FloydWarshall/build/CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o.NVCC-depend") # path
-set(cmake_dependency_file "/home/ubuntu/Scaricati/FloydWarshall/build/CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o.depend") # path
-set(CUDA_make2cmake "/usr/share/cmake-3.10/Modules/FindCUDA/make2cmake.cmake") # path
-set(CUDA_parse_cubin "/usr/share/cmake-3.10/Modules/FindCUDA/parse_cubin.cmake") # path
+set(CMAKE_COMMAND "/usr/local/bin/cmake") # path
+set(source_file "/storage/sgirardi/AdvancedComputerArchitecture/FloydWarshall/src/FloydWarshall.cu") # path
+set(NVCC_generated_dependency_file "/storage/sgirardi/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o.NVCC-depend") # path
+set(cmake_dependency_file "/storage/sgirardi/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o.depend") # path
+set(CUDA_make2cmake "/usr/local/share/cmake-3.6/Modules/FindCUDA/make2cmake.cmake") # path
+set(CUDA_parse_cubin "/usr/local/share/cmake-3.6/Modules/FindCUDA/parse_cubin.cmake") # path
 set(build_cubin OFF) # bool
 set(CUDA_HOST_COMPILER "") # path
 # We won't actually use these variables for now, but we need to set this, in
 # order to force this file to be run again if it changes.
-set(generated_file_path "/home/ubuntu/Scaricati/FloydWarshall/build/CMakeFiles/floydwarshall.dir/src/.") # path
-set(generated_file_internal "/home/ubuntu/Scaricati/FloydWarshall/build/CMakeFiles/floydwarshall.dir/src/./floydwarshall_generated_FloydWarshall.cu.o") # path
-set(generated_cubin_file_internal "/home/ubuntu/Scaricati/FloydWarshall/build/CMakeFiles/floydwarshall.dir/src/./floydwarshall_generated_FloydWarshall.cu.o.cubin.txt") # path
+set(generated_file_path "/storage/sgirardi/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/floydwarshall.dir/src/.") # path
+set(generated_file_internal "/storage/sgirardi/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/floydwarshall.dir/src/./floydwarshall_generated_FloydWarshall.cu.o") # path
+set(generated_cubin_file_internal "/storage/sgirardi/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/floydwarshall.dir/src/./floydwarshall_generated_FloydWarshall.cu.o.cubin.txt") # path
 
-set(CUDA_NVCC_EXECUTABLE "/usr/local/cuda-10.0/bin/nvcc") # path
+set(CUDA_NVCC_EXECUTABLE "/usr/local/cuda-9.1/bin/nvcc") # path
 set(CUDA_NVCC_FLAGS -w ;; ) # list
 # Build specific configuration flags
 set(CUDA_NVCC_FLAGS_DEBUG  ; )
@@ -79,24 +77,9 @@ set(CUDA_NVCC_FLAGS_MINSIZEREL  ; )
 set(CUDA_NVCC_FLAGS_RELEASE  ; )
 set(CUDA_NVCC_FLAGS_RELWITHDEBINFO  ; )
 set(nvcc_flags -m64) # list
-set(CUDA_NVCC_INCLUDE_DIRS "/usr/local/cuda-10.0/include;/home/ubuntu/Scaricati/FloydWarshall/include;/usr/local/cuda-10.0/include") # list (needs to be in quotes to handle spaces properly).
-set(CUDA_NVCC_COMPILE_DEFINITIONS [==[]==]) # list (needs to be in lua quotes see #16510 ).
+set(CUDA_NVCC_INCLUDE_ARGS "-I/usr/local/cuda-9.1/include;-I/storage/sgirardi/AdvancedComputerArchitecture/FloydWarshall/include;-I/usr/local/cuda-9.1/include") # list (needs to be in quotes to handle spaces properly).
 set(format_flag "-dc") # string
 set(cuda_language_flag ) # list
-
-# Clean up list of include directories and add -I flags
-list(REMOVE_DUPLICATES CUDA_NVCC_INCLUDE_DIRS)
-set(CUDA_NVCC_INCLUDE_ARGS)
-foreach(dir ${CUDA_NVCC_INCLUDE_DIRS})
-  # Extra quotes are added around each flag to help nvcc parse out flags with spaces.
-  list(APPEND CUDA_NVCC_INCLUDE_ARGS "-I${dir}")
-endforeach()
-
-# Clean up list of compile definitions, add -D flags, and append to nvcc_flags
-list(REMOVE_DUPLICATES CUDA_NVCC_COMPILE_DEFINITIONS)
-foreach(def ${CUDA_NVCC_COMPILE_DEFINITIONS})
-  list(APPEND nvcc_flags "-D${def}")
-endforeach()
 
 if(build_cubin AND NOT generated_cubin_file)
   message(FATAL_ERROR "You must specify generated_cubin_file on the command line")
@@ -120,7 +103,7 @@ string(TOUPPER "${build_configuration}" build_configuration)
 #message("CUDA_NVCC_HOST_COMPILER_FLAGS = ${CUDA_NVCC_HOST_COMPILER_FLAGS}")
 foreach(flag ${CMAKE_HOST_FLAGS} ${CMAKE_HOST_FLAGS_${build_configuration}})
   # Extra quotes are added around each flag to help nvcc parse out flags with spaces.
-  string(APPEND nvcc_host_compiler_flags ",\"${flag}\"")
+  set(nvcc_host_compiler_flags "${nvcc_host_compiler_flags},\"${flag}\"")
 endforeach()
 if (nvcc_host_compiler_flags)
   set(nvcc_host_compiler_flags "-Xcompiler" ${nvcc_host_compiler_flags})
@@ -187,10 +170,15 @@ cuda_execute_process(
 # For CUDA 2.3 and below, -G -M doesn't work, so remove the -G flag
 # for dependency generation and hope for the best.
 set(depends_CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS}")
-set(CUDA_VERSION 10.0)
+set(CUDA_VERSION 9.1)
 if(CUDA_VERSION VERSION_LESS "3.0")
+  cmake_policy(PUSH)
+  # CMake policy 0007 NEW states that empty list elements are not
+  # ignored.  I'm just setting it to avoid the warning that's printed.
+  cmake_policy(SET CMP0007 NEW)
   # Note that this will remove all occurances of -G.
   list(REMOVE_ITEM depends_CUDA_NVCC_FLAGS "-G")
+  cmake_policy(POP)
 endif()
 
 # nvcc doesn't define __CUDACC__ for some reason when generating dependency files.  This
@@ -309,5 +297,3 @@ if( build_cubin )
     )
 
 endif()
-
-cmake_policy(POP)
