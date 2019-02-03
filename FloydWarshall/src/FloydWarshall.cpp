@@ -11,11 +11,12 @@ namespace floyd_warshall {
     for (int k = 0; k < num_vertices; k++) {
       for (int i = 0; i < num_vertices; i++) {
         for (int j = 0; j < num_vertices; j++) {
-          if (matrix[i][k] != INF &&
+          if (i != j &&
+              matrix[i][k] != INF &&
               matrix[k][j] != INF &&
               matrix[i][k] + matrix[k][j] < matrix[i][j]) {
 
-              matrix[i][j] = matrix[i][k] + matrix[k][j];
+                matrix[i][j] = matrix[i][k] + matrix[k][j];
           }
         }
       }
