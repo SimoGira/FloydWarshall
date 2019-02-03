@@ -1,4 +1,5 @@
 #include "FloydWarshall.hpp"
+#include "FloydWarshall.cuh"
 #include "Graph/GraphWeight.hpp"
 #include <tuple>
 #include <limits>
@@ -51,7 +52,7 @@ int main(int argc, char* argv[]) {
 
     // cudaProfilerStart();
     //
-    floyd_warshall::parallel_floyd_warshall(matrix_h, graph.nV());
+    parallel_floyd_warshall(matrix_h, graph.nV());
     //
     // cudaProfilerStop();
     //--------------------------------------------------------------------------

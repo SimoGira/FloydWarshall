@@ -1,22 +1,24 @@
 Determining if the pthread_create exist failed with the following output:
-Change Dir: /storage/sgirardi/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp
+Change Dir: /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_eb55a/fast"
-/usr/bin/make -f CMakeFiles/cmTC_eb55a.dir/build.make CMakeFiles/cmTC_eb55a.dir/build
-make[1]: Entering directory `/storage/sgirardi/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_eb55a.dir/CheckSymbolExists.cxx.o
-/usr/bin/g++-5      -o CMakeFiles/cmTC_eb55a.dir/CheckSymbolExists.cxx.o -c /storage/sgirardi/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx
-Linking CXX executable cmTC_eb55a
-/usr/local/bin/cmake -E cmake_link_script CMakeFiles/cmTC_eb55a.dir/link.txt --verbose=1
-/usr/bin/g++-5        CMakeFiles/cmTC_eb55a.dir/CheckSymbolExists.cxx.o  -o cmTC_eb55a 
-CMakeFiles/cmTC_eb55a.dir/CheckSymbolExists.cxx.o: In function `main':
-CheckSymbolExists.cxx:(.text+0x16): undefined reference to `pthread_create'
+Run Build Command:"/usr/bin/make" "cmTC_d2b21/fast"
+/usr/bin/make -f CMakeFiles/cmTC_d2b21.dir/build.make CMakeFiles/cmTC_d2b21.dir/build
+make[1]: ingresso nella directory "/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp"
+Building CXX object CMakeFiles/cmTC_d2b21.dir/CheckSymbolExists.cxx.o
+/usr/bin/c++     -o CMakeFiles/cmTC_d2b21.dir/CheckSymbolExists.cxx.o -c /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx
+Linking CXX executable cmTC_d2b21
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d2b21.dir/link.txt --verbose=1
+/usr/bin/c++       CMakeFiles/cmTC_d2b21.dir/CheckSymbolExists.cxx.o  -o cmTC_d2b21 
+CMakeFiles/cmTC_d2b21.dir/CheckSymbolExists.cxx.o: nella funzione "main":
+CheckSymbolExists.cxx:(.text+0x1b): riferimento non definito a "pthread_create"
 collect2: error: ld returned 1 exit status
-make[1]: *** [cmTC_eb55a] Error 1
-make[1]: Leaving directory `/storage/sgirardi/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp'
-make: *** [cmTC_eb55a/fast] Error 2
+CMakeFiles/cmTC_d2b21.dir/build.make:97: recipe for target 'cmTC_d2b21' failed
+make[1]: *** [cmTC_d2b21] Error 1
+make[1]: uscita dalla directory "/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp"
+Makefile:126: recipe for target 'cmTC_d2b21/fast' failed
+make: *** [cmTC_d2b21/fast] Error 2
 
-File /storage/sgirardi/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:
+File /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:
 /* */
 #include <pthread.h>
 
@@ -32,20 +34,22 @@ int main(int argc, char** argv)
 }
 
 Determining if the function pthread_create exists in the pthreads failed with the following output:
-Change Dir: /storage/sgirardi/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp
+Change Dir: /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_21ea5/fast"
-/usr/bin/make -f CMakeFiles/cmTC_21ea5.dir/build.make CMakeFiles/cmTC_21ea5.dir/build
-make[1]: Entering directory `/storage/sgirardi/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_21ea5.dir/CheckFunctionExists.cxx.o
-/usr/bin/g++-5     -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_21ea5.dir/CheckFunctionExists.cxx.o -c /storage/sgirardi/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CheckLibraryExists/CheckFunctionExists.cxx
-Linking CXX executable cmTC_21ea5
-/usr/local/bin/cmake -E cmake_link_script CMakeFiles/cmTC_21ea5.dir/link.txt --verbose=1
-/usr/bin/g++-5    -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_21ea5.dir/CheckFunctionExists.cxx.o  -o cmTC_21ea5 -lpthreads 
-/usr/bin/ld: cannot find -lpthreads
+Run Build Command:"/usr/bin/make" "cmTC_30904/fast"
+/usr/bin/make -f CMakeFiles/cmTC_30904.dir/build.make CMakeFiles/cmTC_30904.dir/build
+make[1]: ingresso nella directory "/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp"
+Building CXX object CMakeFiles/cmTC_30904.dir/CheckFunctionExists.cxx.o
+/usr/bin/c++    -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_30904.dir/CheckFunctionExists.cxx.o -c /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CheckLibraryExists/CheckFunctionExists.cxx
+Linking CXX executable cmTC_30904
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_30904.dir/link.txt --verbose=1
+/usr/bin/c++   -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_30904.dir/CheckFunctionExists.cxx.o  -o cmTC_30904 -lpthreads 
+/usr/bin/ld: impossibile trovare -lpthreads
 collect2: error: ld returned 1 exit status
-make[1]: *** [cmTC_21ea5] Error 1
-make[1]: Leaving directory `/storage/sgirardi/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp'
-make: *** [cmTC_21ea5/fast] Error 2
+CMakeFiles/cmTC_30904.dir/build.make:97: recipe for target 'cmTC_30904' failed
+make[1]: *** [cmTC_30904] Error 1
+make[1]: uscita dalla directory "/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp"
+Makefile:126: recipe for target 'cmTC_30904/fast' failed
+make: *** [cmTC_30904/fast] Error 2
 
 

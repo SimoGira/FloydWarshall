@@ -9,10 +9,6 @@
 #include <time.h>
 #include <cuda.h>
 
-// #define O_TILE_WIDTH 16
-// #define TILE_SIZE (O_TILE_WIDTH + 4)  // O_TILE_WIDTH + (MASK_WIDTH -1)
-// #define MAX_MASK_WIDTH 10
-// __constant__ float M[MAX_MASK_WIDTH * MAX_MASK_WIDTH];
 
 #define CHECK_ERROR(call) { \
     cudaError_t err = call; \
@@ -21,7 +17,6 @@
         exit(err); \
     } \
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////
 //! Simple floyd_warshall kernel
@@ -33,3 +28,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 __global__
 void parallel_floyd_warshall_kernel(float *N, float *P, int num_vertices);
+
+
+template<typename T>
+void parallel_floyd_warshall(T* h_N, int n);
