@@ -27,7 +27,7 @@
 //! @param widht  number of cols of the input matrix N
 ////////////////////////////////////////////////////////////////////////////////
 __global__
-void parallel_floyd_warshall_kernel(float *N, float *P, int num_vertices);
+void parallel_floyd_warshall_kernel(float *N, int num_vertices);
 
 
 template<typename T>
