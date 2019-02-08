@@ -22,7 +22,7 @@ void parallel_floyd_warshall_kernel(float *N, int num_vertices) {
   int j = by * blockDim.y + ty;
 
   // check for a valid range
-  if (i < num_vertices && j < num_vertices && i != j){
+  if (i < num_vertices && j < num_vertices){
 
     for (int k = 0; k < num_vertices; k++) {
       if (N[i * num_vertices + k] != INF &&
