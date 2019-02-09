@@ -3,37 +3,27 @@
 #include <iostream>
 #include <limits>
 
-#define BLOCK_SIZE 8
+#define BLOCK_SIZE 10
 
 __constant__ auto INF = std::numeric_limits<float>::infinity();   // qui andrebbe sistemato in modo che al posto di float accetti T
 
 __global__
 void parallel_floyd_warshall_kernel(float *N, int n, int k) {
 
-  // Block index
-  int bx = blockIdx.x;
-  int by = blockIdx.y;
-
-  // Thread index
-  int tx = threadIdx.x;
-  int ty = threadIdx.y;
-
-  int row = by * blockDim.y + ty;
-  int col = bx * blockDim.x + tx;
+  const unsigned int i = blockIdx.y * blockDim.y + threadIdx.y;
+  const unsigned int j = blockIdx.x * blockDim.x + threadIdx.x;
 
   // check for a valid range
-  if (row != col && row < n && col < n) {
+  if (i >= n || j >= n || k >= n || i == j) return;
 
-      float r_k_value = N[row * n + k];
-      float k_c_value = N[k * n + col];
-      float r_c_value = N[row * n + col];
+  const float i_k_value = N[i * n + k];
+  const float k_j_value = N[k * n + j];
+  const float i_j_value = N[i * n + j];
 
-      if (r_k_value != INF && k_c_value != INF) {
-          float sum = r_k_value + k_c_value;
-          if (sum < r_c_value) {
-              N[row * n + col] = sum;
-          }
-            // TODO Da sistemare ...
+  if (i_k_value != INF && k_j_value != INF) {
+      float sum = i_k_value + k_j_value;
+      if (sum < i_j_value) {
+          N[i * n + j] = sum;
       }
   }
 }

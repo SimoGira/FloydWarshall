@@ -78,13 +78,13 @@ int main(int argc, char* argv[]) {
     // cudaProfilerStop();
 
 
-    printf("Result from HOST:\n");
-    printMatrix_host(matrix, graph.nV(), graph.nV());
-    printf("\n");
-
-    printf("Result from GPU:\n");
-    printMatrix(matrix_h, graph.nV(), graph.nV());
-    printf("\n");
+    // printf("Result from HOST:\n");
+    // printMatrix_host(matrix, graph.nV(), graph.nV());
+    // printf("\n");
+    //
+    // printf("Result from GPU:\n");
+    // printMatrix(matrix_h, graph.nV(), graph.nV());
+    // printf("\n");
 
 
     // Verify that the result matrix is correct
