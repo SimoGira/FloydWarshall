@@ -9,6 +9,26 @@
 
 using matrix_t = float;
 
+void printMatrix(float *A, int height, int width) {
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+            printf("%.1f ", A[i*height+j]);
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
+
+void printMatrix_host(matrix_t **A, int height, int width) {
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+            printf("%.1f ", A[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
+
 int main(int argc, char* argv[]) {
     if (argc != 2)
         return EXIT_FAILURE;
@@ -36,14 +56,11 @@ int main(int argc, char* argv[]) {
     matrix_h = (float*)malloc(sizeof(float)*graph.nV()*graph.nV());     // input matrix
     for (int i = 0; i < graph.nV(); i++) {
       for (int j = 0; j < graph.nV(); j++) {
-        printf("%.1f\t", matrix[i][j]);
         //printf("matrix[%d]      = %f\n", i* graph.nV() + j, *(*(matrix+i)+j));
         //printf("matrix[%d]      = %f\n", i* graph.nV() + j, *(matrix[i]+j));
 
         matrix_h[i*graph.nV()+j] = matrix[i][j];
-
       }
-      printf("\n");
     }
 
 
@@ -59,21 +76,25 @@ int main(int argc, char* argv[]) {
     // cudaProfilerStart();
     parallel_floyd_warshall(matrix_h, graph.nV());
     // cudaProfilerStop();
-    //--------------------------------------------------------------------------
+
+
+    printf("Result from HOST:\n");
+    printMatrix_host(matrix, graph.nV(), graph.nV());
+    printf("\n");
+
+    printf("Result from GPU:\n");
+    printMatrix(matrix_h, graph.nV(), graph.nV());
+    printf("\n");
 
 
     // Verify that the result matrix is correct
     for (int i = 0; i < graph.nV(); ++i) {
       for (int j = 0; j < graph.nV(); j++) {
-        //printf("%.1f\t", matrix_h[i*graph.nV()+j]);
-        //printf("host  [%d]  \t%f\n", i*graph.nV()+j, matrix[i][j]);
-        printf("%.1f\t", matrix[i][j]);
         if (fabs(matrix_h[i*graph.nV()+j] - matrix[i][j]) > 1e-5) {
             fprintf(stderr, "Result verification failed at element [%d][%d]!\n", i, j);
             exit(EXIT_FAILURE);
         }
       }
-      printf("\n");
     }
 
     for (int i = 0; i < graph.nV(); i++)

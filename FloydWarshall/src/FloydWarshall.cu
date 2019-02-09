@@ -3,12 +3,12 @@
 #include <iostream>
 #include <limits>
 
-#define BLOCK_SIZE 4
+#define BLOCK_SIZE 8
 
 __constant__ auto INF = std::numeric_limits<float>::infinity();   // qui andrebbe sistemato in modo che al posto di float accetti T
 
 __global__
-void parallel_floyd_warshall_kernel(float *N, int num_vertices) {
+void parallel_floyd_warshall_kernel(float *N, int n, int k) {
 
   // Block index
   int bx = blockIdx.x;
@@ -18,23 +18,23 @@ void parallel_floyd_warshall_kernel(float *N, int num_vertices) {
   int tx = threadIdx.x;
   int ty = threadIdx.y;
 
-  int i = bx * blockDim.x + tx;
-  int j = by * blockDim.y + ty;
+  int row = by * blockDim.y + ty;
+  int col = bx * blockDim.x + tx;
 
   // check for a valid range
-  if (i < num_vertices && j < num_vertices){
+  if (row != col && row < n && col < n) {
 
-    for (int k = 0; k < num_vertices; k++) {
-      if (N[i * num_vertices + k] != INF &&
-          N[k * num_vertices + j] != INF &&
-          N[i * num_vertices + k] + N[k * num_vertices + j] < N[i * num_vertices +j]) {
+      float r_k_value = N[row * n + k];
+      float k_c_value = N[k * n + col];
+      float r_c_value = N[row * n + col];
 
-            N[i * num_vertices + j] = N[i * num_vertices + k] + N[k * num_vertices + j];
-
+      if (r_k_value != INF && k_c_value != INF) {
+          float sum = r_k_value + k_c_value;
+          if (sum < r_c_value) {
+              N[row * n + col] = sum;
+          }
             // TODO Da sistemare ...
       }
-    }
-
   }
 }
 
@@ -70,7 +70,10 @@ void parallel_floyd_warshall(T* h_N, int n) {
 
   dim3 dimGrid(ceil(n / BLOCK_SIZE), ceil(n / BLOCK_SIZE), 1);
   dim3 dimBlock(BLOCK_SIZE, BLOCK_SIZE, 1.0);
-  parallel_floyd_warshall_kernel <<< dimGrid, dimBlock >>> (d_N, n);
+
+  for (int k = 0; k < n; k++) {
+    parallel_floyd_warshall_kernel <<< dimGrid, dimBlock >>> (d_N, n, k);
+  }
 
   // cudaEventRecord(stopTimeCuda, 0);
   // cudaEventSynchronize(stopTimeCuda);
@@ -86,7 +89,7 @@ void parallel_floyd_warshall(T* h_N, int n) {
   // // cleanup memory
   CHECK_ERROR(cudaFree(d_N));
 
-  printf("return from parallel_floyd_warshall\n");
+  printf("return from parallel_floyd_warshall\n\n");
   // return msTime;
 }
 
