@@ -32,7 +32,7 @@ void parallel_floyd_warshall_kernel(float *N, int n, int k) {
 
 // ----------------------------------------------------------------------------
 // PERFORM PARALLEL FLOYD-WARSHALL
-// ---------------- ------------------------------------------------------------
+// ----------------------------------------------------------------------------
 template <typename T>
 void parallel_floyd_warshall(T* h_N, int n) {
   printf("Called parallel_floyd_warshall\n");
@@ -58,8 +58,11 @@ void parallel_floyd_warshall(T* h_N, int n) {
   // cudaEventRecord(startTimeCuda, 0);
   // cudaEventSynchronize(startTimeCuda);
 
-  dim3 dimGrid(ceil(n / BLOCK_SIZE), ceil(n / BLOCK_SIZE), 1);
+  dim3 dimGrid(ceil(n / (float)BLOCK_SIZE), ceil(n / (float)BLOCK_SIZE), 1);
   dim3 dimBlock(BLOCK_SIZE, BLOCK_SIZE, 1.0);
+
+  printf("Grid:   {%d,\t%d,\t%d} blocks.\nBlocks: {%d,\t%d,\t%d} threads.\n", \
+          dimGrid.x, dimGrid.y, dimGrid.z, dimBlock.x, dimBlock.y, dimBlock.z);
 
   for (int k = 0; k < n; k++) {
     parallel_floyd_warshall_kernel <<< dimGrid, dimBlock >>> (d_N, n, k);
