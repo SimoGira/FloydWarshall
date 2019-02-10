@@ -19,7 +19,6 @@ namespace floyd_warshall {
                 }
               }
           }
-
       }
     }
   }
