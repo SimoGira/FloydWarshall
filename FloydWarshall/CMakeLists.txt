@@ -3,6 +3,10 @@ project(${PROJECT} CXX)
 
 cmake_minimum_required(VERSION 3.5)
 
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release)
+endif(NOT CMAKE_BUILD_TYPE)
+
 # ------------------------------------------------------------------------------
 FIND_PACKAGE(CUDA REQUIRED)
 # ------------------------------------------------------------------------------
@@ -19,6 +23,7 @@ endif()
 # ------------------------------------------------------------------------------
 
 add_compile_options("-O3")
+# add_compile_options("-pg")
 
 include_directories(${PROJECT_SOURCE_DIR}/include)
 file(GLOB_RECURSE SRCS ${PROJECT_SOURCE_DIR}/src/*.cpp
@@ -26,7 +31,7 @@ file(GLOB_RECURSE SRCS ${PROJECT_SOURCE_DIR}/src/*.cpp
 )
 
 # ------------------------------------------------------------------------------
-set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} "-w")#"--resource-usage"
+set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} "-w")  #"--resource-usage"
 set(CUDA_SEPARABLE_COMPILATION ON)
 cuda_add_executable(floydwarshall ${PROJECT_SOURCE_DIR}/main.cpp ${SRCS})
 # ------------------------------------------------------------------------------

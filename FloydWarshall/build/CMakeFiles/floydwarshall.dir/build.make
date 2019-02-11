@@ -183,17 +183,25 @@ CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /us
 CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/x86_64-linux-gnu/bits/math-vector.h
 CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h
 CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/x86_64-linux-gnu/bits/mathcalls.h
+CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/x86_64-linux-gnu/bits/mathinline.h
 CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/x86_64-linux-gnu/bits/posix1_lim.h
 CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/x86_64-linux-gnu/bits/posix2_lim.h
 CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h
 CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h
 CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/x86_64-linux-gnu/bits/sched.h
 CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/x86_64-linux-gnu/bits/select.h
+CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/x86_64-linux-gnu/bits/select2.h
 CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/x86_64-linux-gnu/bits/setjmp.h
 CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/x86_64-linux-gnu/bits/stdint-intn.h
 CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h
+CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/x86_64-linux-gnu/bits/stdio.h
+CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/x86_64-linux-gnu/bits/stdio2.h
 CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/x86_64-linux-gnu/bits/stdio_lim.h
+CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h
 CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/x86_64-linux-gnu/bits/stdlib-float.h
+CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/x86_64-linux-gnu/bits/stdlib.h
+CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/x86_64-linux-gnu/bits/string_fortified.h
+CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/x86_64-linux-gnu/bits/strings_fortified.h
 CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/x86_64-linux-gnu/bits/sys_errlist.h
 CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/x86_64-linux-gnu/bits/sysmacros.h
 CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h
@@ -223,6 +231,7 @@ CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /us
 CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/x86_64-linux-gnu/bits/waitflags.h
 CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/x86_64-linux-gnu/bits/waitstatus.h
 CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/x86_64-linux-gnu/bits/wchar.h
+CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/x86_64-linux-gnu/bits/wchar2.h
 CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h
 CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/x86_64-linux-gnu/bits/wordsize.h
 CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/x86_64-linux-gnu/bits/xopen_lim.h
@@ -299,11 +308,11 @@ CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /us
 CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/local/cuda-10.0/include/vector_functions.h
 CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/local/cuda-10.0/include/vector_functions.hpp
 CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/local/cuda-10.0/include/vector_types.h
-CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o.cmake
+CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o.Release.cmake
 CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: ../src/FloydWarshall.cu
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building NVCC (Device) object CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o"
 	cd /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/floydwarshall.dir/src && /usr/bin/cmake -E make_directory /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/floydwarshall.dir/src/.
-	cd /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/floydwarshall.dir/src && /usr/bin/cmake -D verbose:BOOL=$(VERBOSE) -D build_configuration:STRING= -D generated_file:STRING=/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/floydwarshall.dir/src/./floydwarshall_generated_FloydWarshall.cu.o -D generated_cubin_file:STRING=/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/floydwarshall.dir/src/./floydwarshall_generated_FloydWarshall.cu.o.cubin.txt -P /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o.cmake
+	cd /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/floydwarshall.dir/src && /usr/bin/cmake -D verbose:BOOL=$(VERBOSE) -D build_configuration:STRING=Release -D generated_file:STRING=/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/floydwarshall.dir/src/./floydwarshall_generated_FloydWarshall.cu.o -D generated_cubin_file:STRING=/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/floydwarshall.dir/src/./floydwarshall_generated_FloydWarshall.cu.o.cubin.txt -P /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o.Release.cmake
 
 CMakeFiles/floydwarshall.dir/floydwarshall_intermediate_link.o: CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building NVCC intermediate link file CMakeFiles/floydwarshall.dir/floydwarshall_intermediate_link.o"

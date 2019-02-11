@@ -1,4 +1,4 @@
-The system is: Linux - 4.15.0-43-generic - x86_64
+The system is: Linux - 4.15.0-45-generic - x86_64
 Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
 Compiler: /usr/bin/c++ 
 Build flags: 
@@ -15,28 +15,28 @@ The CXX compiler identification is GNU, found in "/home/ubuntu/Scrivania/Advance
 Determining if the CXX compiler works passed with the following output:
 Change Dir: /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_95e84/fast"
-/usr/bin/make -f CMakeFiles/cmTC_95e84.dir/build.make CMakeFiles/cmTC_95e84.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_98467/fast"
+/usr/bin/make -f CMakeFiles/cmTC_98467.dir/build.make CMakeFiles/cmTC_98467.dir/build
 make[1]: ingresso nella directory "/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp"
-Building CXX object CMakeFiles/cmTC_95e84.dir/testCXXCompiler.cxx.o
-/usr/bin/c++     -o CMakeFiles/cmTC_95e84.dir/testCXXCompiler.cxx.o -c /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
-Linking CXX executable cmTC_95e84
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_95e84.dir/link.txt --verbose=1
-/usr/bin/c++       -rdynamic CMakeFiles/cmTC_95e84.dir/testCXXCompiler.cxx.o  -o cmTC_95e84 
+Building CXX object CMakeFiles/cmTC_98467.dir/testCXXCompiler.cxx.o
+/usr/bin/c++     -o CMakeFiles/cmTC_98467.dir/testCXXCompiler.cxx.o -c /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
+Linking CXX executable cmTC_98467
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_98467.dir/link.txt --verbose=1
+/usr/bin/c++       -rdynamic CMakeFiles/cmTC_98467.dir/testCXXCompiler.cxx.o  -o cmTC_98467 
 make[1]: uscita dalla directory "/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp"
 
 
 Detecting CXX compiler ABI info compiled with the following output:
 Change Dir: /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_eec3d/fast"
-/usr/bin/make -f CMakeFiles/cmTC_eec3d.dir/build.make CMakeFiles/cmTC_eec3d.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_87185/fast"
+/usr/bin/make -f CMakeFiles/cmTC_87185.dir/build.make CMakeFiles/cmTC_87185.dir/build
 make[1]: ingresso nella directory "/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp"
-Building CXX object CMakeFiles/cmTC_eec3d.dir/CMakeCXXCompilerABI.cpp.o
-/usr/bin/c++     -o CMakeFiles/cmTC_eec3d.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.10/Modules/CMakeCXXCompilerABI.cpp
-Linking CXX executable cmTC_eec3d
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_eec3d.dir/link.txt --verbose=1
-/usr/bin/c++      -v -rdynamic CMakeFiles/cmTC_eec3d.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_eec3d 
+Building CXX object CMakeFiles/cmTC_87185.dir/CMakeCXXCompilerABI.cpp.o
+/usr/bin/c++     -o CMakeFiles/cmTC_87185.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.10/Modules/CMakeCXXCompilerABI.cpp
+Linking CXX executable cmTC_87185
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_87185.dir/link.txt --verbose=1
+/usr/bin/c++      -v -rdynamic CMakeFiles/cmTC_87185.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_87185 
 Using built-in specs.
 COLLECT_GCC=/usr/bin/c++
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper
@@ -48,9 +48,9 @@ Thread model: posix
 gcc version 7.3.0 (Ubuntu 7.3.0-27ubuntu1~18.04) 
 COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/
 LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../:/lib/:/usr/lib/
-COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_eec3d' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
- /usr/lib/gcc/x86_64-linux-gnu/7/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/7/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper -plugin-opt=-fresolution=/tmp/ccJ9OgoK.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_eec3d /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/7/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/7 -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/7/../../.. CMakeFiles/cmTC_eec3d.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/7/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crtn.o
-COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_eec3d' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_87185' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+ /usr/lib/gcc/x86_64-linux-gnu/7/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/7/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper -plugin-opt=-fresolution=/tmp/ccR5VFEo.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_87185 /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/7/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/7 -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/7/../../.. CMakeFiles/cmTC_87185.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/7/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_87185' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
 make[1]: uscita dalla directory "/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp"
 
 
@@ -58,14 +58,14 @@ Parsed CXX implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_eec3d/fast"]
-  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_eec3d.dir/build.make CMakeFiles/cmTC_eec3d.dir/build]
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_87185/fast"]
+  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_87185.dir/build.make CMakeFiles/cmTC_87185.dir/build]
   ignore line: [make[1]: ingresso nella directory "/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp"]
-  ignore line: [Building CXX object CMakeFiles/cmTC_eec3d.dir/CMakeCXXCompilerABI.cpp.o]
-  ignore line: [/usr/bin/c++     -o CMakeFiles/cmTC_eec3d.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.10/Modules/CMakeCXXCompilerABI.cpp]
-  ignore line: [Linking CXX executable cmTC_eec3d]
-  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_eec3d.dir/link.txt --verbose=1]
-  ignore line: [/usr/bin/c++      -v -rdynamic CMakeFiles/cmTC_eec3d.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_eec3d ]
+  ignore line: [Building CXX object CMakeFiles/cmTC_87185.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [/usr/bin/c++     -o CMakeFiles/cmTC_87185.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.10/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Linking CXX executable cmTC_87185]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_87185.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/c++      -v -rdynamic CMakeFiles/cmTC_87185.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_87185 ]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=/usr/bin/c++]
   ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper]
@@ -77,13 +77,13 @@ Parsed CXX implicit link information from above output:
   ignore line: [gcc version 7.3.0 (Ubuntu 7.3.0-27ubuntu1~18.04) ]
   ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/]
   ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../:/lib/:/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_eec3d' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
-  link line: [ /usr/lib/gcc/x86_64-linux-gnu/7/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/7/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper -plugin-opt=-fresolution=/tmp/ccJ9OgoK.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_eec3d /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/7/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/7 -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/7/../../.. CMakeFiles/cmTC_eec3d.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/7/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crtn.o]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_87185' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
+  link line: [ /usr/lib/gcc/x86_64-linux-gnu/7/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/7/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper -plugin-opt=-fresolution=/tmp/ccR5VFEo.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_87185 /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/7/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/7 -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/7/../../.. CMakeFiles/cmTC_87185.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/7/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crtn.o]
     arg [/usr/lib/gcc/x86_64-linux-gnu/7/collect2] ==> ignore
     arg [-plugin] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/7/liblto_plugin.so] ==> ignore
     arg [-plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper] ==> ignore
-    arg [-plugin-opt=-fresolution=/tmp/ccJ9OgoK.res] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/ccR5VFEo.res] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
     arg [-plugin-opt=-pass-through=-lc] ==> ignore
@@ -103,7 +103,7 @@ Parsed CXX implicit link information from above output:
     arg [-znow] ==> ignore
     arg [-zrelro] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_eec3d] ==> ignore
+    arg [cmTC_87185] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/Scrt1.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crti.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/7/crtbeginS.o] ==> ignore
@@ -115,7 +115,7 @@ Parsed CXX implicit link information from above output:
     arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
     arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
     arg [-L/usr/lib/gcc/x86_64-linux-gnu/7/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/7/../../..]
-    arg [CMakeFiles/cmTC_eec3d.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [CMakeFiles/cmTC_87185.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
     arg [-lstdc++] ==> lib [stdc++]
     arg [-lm] ==> lib [m]
     arg [-lgcc_s] ==> lib [gcc_s]
@@ -143,14 +143,14 @@ Parsed CXX implicit link information from above output:
 Detecting CXX [-std=c++1z] compiler features compiled with the following output:
 Change Dir: /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_175c7/fast"
-/usr/bin/make -f CMakeFiles/cmTC_175c7.dir/build.make CMakeFiles/cmTC_175c7.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_32ca6/fast"
+/usr/bin/make -f CMakeFiles/cmTC_32ca6.dir/build.make CMakeFiles/cmTC_32ca6.dir/build
 make[1]: ingresso nella directory "/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp"
-Building CXX object CMakeFiles/cmTC_175c7.dir/feature_tests.cxx.o
-/usr/bin/c++    -std=c++1z -o CMakeFiles/cmTC_175c7.dir/feature_tests.cxx.o -c /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_175c7
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_175c7.dir/link.txt --verbose=1
-/usr/bin/c++       -rdynamic CMakeFiles/cmTC_175c7.dir/feature_tests.cxx.o  -o cmTC_175c7 
+Building CXX object CMakeFiles/cmTC_32ca6.dir/feature_tests.cxx.o
+/usr/bin/c++    -std=c++1z -o CMakeFiles/cmTC_32ca6.dir/feature_tests.cxx.o -c /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_32ca6
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_32ca6.dir/link.txt --verbose=1
+/usr/bin/c++       -rdynamic CMakeFiles/cmTC_32ca6.dir/feature_tests.cxx.o  -o cmTC_32ca6 
 make[1]: uscita dalla directory "/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp"
 
 
@@ -216,14 +216,14 @@ make[1]: uscita dalla directory "/home/ubuntu/Scrivania/AdvancedComputerArchitec
 Detecting CXX [-std=c++14] compiler features compiled with the following output:
 Change Dir: /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_e941f/fast"
-/usr/bin/make -f CMakeFiles/cmTC_e941f.dir/build.make CMakeFiles/cmTC_e941f.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_c510d/fast"
+/usr/bin/make -f CMakeFiles/cmTC_c510d.dir/build.make CMakeFiles/cmTC_c510d.dir/build
 make[1]: ingresso nella directory "/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp"
-Building CXX object CMakeFiles/cmTC_e941f.dir/feature_tests.cxx.o
-/usr/bin/c++    -std=c++14 -o CMakeFiles/cmTC_e941f.dir/feature_tests.cxx.o -c /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_e941f
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e941f.dir/link.txt --verbose=1
-/usr/bin/c++       -rdynamic CMakeFiles/cmTC_e941f.dir/feature_tests.cxx.o  -o cmTC_e941f 
+Building CXX object CMakeFiles/cmTC_c510d.dir/feature_tests.cxx.o
+/usr/bin/c++    -std=c++14 -o CMakeFiles/cmTC_c510d.dir/feature_tests.cxx.o -c /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_c510d
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c510d.dir/link.txt --verbose=1
+/usr/bin/c++       -rdynamic CMakeFiles/cmTC_c510d.dir/feature_tests.cxx.o  -o cmTC_c510d 
 make[1]: uscita dalla directory "/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp"
 
 
@@ -289,14 +289,14 @@ make[1]: uscita dalla directory "/home/ubuntu/Scrivania/AdvancedComputerArchitec
 Detecting CXX [-std=c++11] compiler features compiled with the following output:
 Change Dir: /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_31be3/fast"
-/usr/bin/make -f CMakeFiles/cmTC_31be3.dir/build.make CMakeFiles/cmTC_31be3.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_0f9c6/fast"
+/usr/bin/make -f CMakeFiles/cmTC_0f9c6.dir/build.make CMakeFiles/cmTC_0f9c6.dir/build
 make[1]: ingresso nella directory "/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp"
-Building CXX object CMakeFiles/cmTC_31be3.dir/feature_tests.cxx.o
-/usr/bin/c++    -std=c++11 -o CMakeFiles/cmTC_31be3.dir/feature_tests.cxx.o -c /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_31be3
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_31be3.dir/link.txt --verbose=1
-/usr/bin/c++       -rdynamic CMakeFiles/cmTC_31be3.dir/feature_tests.cxx.o  -o cmTC_31be3 
+Building CXX object CMakeFiles/cmTC_0f9c6.dir/feature_tests.cxx.o
+/usr/bin/c++    -std=c++11 -o CMakeFiles/cmTC_0f9c6.dir/feature_tests.cxx.o -c /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_0f9c6
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0f9c6.dir/link.txt --verbose=1
+/usr/bin/c++       -rdynamic CMakeFiles/cmTC_0f9c6.dir/feature_tests.cxx.o  -o cmTC_0f9c6 
 make[1]: uscita dalla directory "/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp"
 
 
@@ -362,14 +362,14 @@ make[1]: uscita dalla directory "/home/ubuntu/Scrivania/AdvancedComputerArchitec
 Detecting CXX [-std=c++98] compiler features compiled with the following output:
 Change Dir: /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_9fa15/fast"
-/usr/bin/make -f CMakeFiles/cmTC_9fa15.dir/build.make CMakeFiles/cmTC_9fa15.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_5c0d8/fast"
+/usr/bin/make -f CMakeFiles/cmTC_5c0d8.dir/build.make CMakeFiles/cmTC_5c0d8.dir/build
 make[1]: ingresso nella directory "/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp"
-Building CXX object CMakeFiles/cmTC_9fa15.dir/feature_tests.cxx.o
-/usr/bin/c++    -std=c++98 -o CMakeFiles/cmTC_9fa15.dir/feature_tests.cxx.o -c /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_9fa15
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9fa15.dir/link.txt --verbose=1
-/usr/bin/c++       -rdynamic CMakeFiles/cmTC_9fa15.dir/feature_tests.cxx.o  -o cmTC_9fa15 
+Building CXX object CMakeFiles/cmTC_5c0d8.dir/feature_tests.cxx.o
+/usr/bin/c++    -std=c++98 -o CMakeFiles/cmTC_5c0d8.dir/feature_tests.cxx.o -c /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_5c0d8
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5c0d8.dir/link.txt --verbose=1
+/usr/bin/c++       -rdynamic CMakeFiles/cmTC_5c0d8.dir/feature_tests.cxx.o  -o cmTC_5c0d8 
 make[1]: uscita dalla directory "/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp"
 
 
@@ -433,42 +433,42 @@ make[1]: uscita dalla directory "/home/ubuntu/Scrivania/AdvancedComputerArchitec
 Determining if the include file pthread.h exists passed with the following output:
 Change Dir: /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_ac575/fast"
-/usr/bin/make -f CMakeFiles/cmTC_ac575.dir/build.make CMakeFiles/cmTC_ac575.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_e05a1/fast"
+/usr/bin/make -f CMakeFiles/cmTC_e05a1.dir/build.make CMakeFiles/cmTC_e05a1.dir/build
 make[1]: ingresso nella directory "/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp"
-Building CXX object CMakeFiles/cmTC_ac575.dir/CheckIncludeFile.cxx.o
-/usr/bin/c++     -o CMakeFiles/cmTC_ac575.dir/CheckIncludeFile.cxx.o -c /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
-Linking CXX executable cmTC_ac575
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ac575.dir/link.txt --verbose=1
-/usr/bin/c++       CMakeFiles/cmTC_ac575.dir/CheckIncludeFile.cxx.o  -o cmTC_ac575 
+Building CXX object CMakeFiles/cmTC_e05a1.dir/CheckIncludeFile.cxx.o
+/usr/bin/c++     -o CMakeFiles/cmTC_e05a1.dir/CheckIncludeFile.cxx.o -c /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
+Linking CXX executable cmTC_e05a1
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e05a1.dir/link.txt --verbose=1
+/usr/bin/c++       CMakeFiles/cmTC_e05a1.dir/CheckIncludeFile.cxx.o  -o cmTC_e05a1 
 make[1]: uscita dalla directory "/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp"
 
 
 Determining if the function pthread_create exists in the pthread passed with the following output:
 Change Dir: /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_8fd16/fast"
-/usr/bin/make -f CMakeFiles/cmTC_8fd16.dir/build.make CMakeFiles/cmTC_8fd16.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_5c399/fast"
+/usr/bin/make -f CMakeFiles/cmTC_5c399.dir/build.make CMakeFiles/cmTC_5c399.dir/build
 make[1]: ingresso nella directory "/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp"
-Building CXX object CMakeFiles/cmTC_8fd16.dir/CheckFunctionExists.cxx.o
-/usr/bin/c++    -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_8fd16.dir/CheckFunctionExists.cxx.o -c /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CheckLibraryExists/CheckFunctionExists.cxx
-Linking CXX executable cmTC_8fd16
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8fd16.dir/link.txt --verbose=1
-/usr/bin/c++   -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_8fd16.dir/CheckFunctionExists.cxx.o  -o cmTC_8fd16 -lpthread 
+Building CXX object CMakeFiles/cmTC_5c399.dir/CheckFunctionExists.cxx.o
+/usr/bin/c++    -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_5c399.dir/CheckFunctionExists.cxx.o -c /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CheckLibraryExists/CheckFunctionExists.cxx
+Linking CXX executable cmTC_5c399
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5c399.dir/link.txt --verbose=1
+/usr/bin/c++   -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_5c399.dir/CheckFunctionExists.cxx.o  -o cmTC_5c399 -lpthread 
 make[1]: uscita dalla directory "/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp"
 
 
 Performing C++ SOURCE FILE Test COMPILER_SUPPORTS_CXX14 succeeded with the following output:
 Change Dir: /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_a7ffd/fast"
-/usr/bin/make -f CMakeFiles/cmTC_a7ffd.dir/build.make CMakeFiles/cmTC_a7ffd.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_6eb15/fast"
+/usr/bin/make -f CMakeFiles/cmTC_6eb15.dir/build.make CMakeFiles/cmTC_6eb15.dir/build
 make[1]: Entering directory '/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_a7ffd.dir/src.cxx.o
-/usr/bin/c++    -DCOMPILER_SUPPORTS_CXX14   -std=c++14 -o CMakeFiles/cmTC_a7ffd.dir/src.cxx.o -c /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp/src.cxx
-Linking CXX executable cmTC_a7ffd
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a7ffd.dir/link.txt --verbose=1
-/usr/bin/c++   -DCOMPILER_SUPPORTS_CXX14    CMakeFiles/cmTC_a7ffd.dir/src.cxx.o  -o cmTC_a7ffd 
+Building CXX object CMakeFiles/cmTC_6eb15.dir/src.cxx.o
+/usr/bin/c++    -DCOMPILER_SUPPORTS_CXX14   -std=c++14 -o CMakeFiles/cmTC_6eb15.dir/src.cxx.o -c /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_6eb15
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6eb15.dir/link.txt --verbose=1
+/usr/bin/c++   -DCOMPILER_SUPPORTS_CXX14    CMakeFiles/cmTC_6eb15.dir/src.cxx.o  -o cmTC_6eb15 
 make[1]: Leaving directory '/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp'
 
 Source file was:

@@ -3,7 +3,7 @@
 #include <iostream>
 #include <limits>
 
-#define BLOCK_SIZE 10
+#define BLOCK_SIZE 32
 
 __constant__ auto INF = std::numeric_limits<float>::infinity();   // qui andrebbe sistemato in modo che al posto di float accetti T
 

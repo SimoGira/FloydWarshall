@@ -69,7 +69,6 @@ int main(int argc, char* argv[]) {
     //--------------------------------------------------------------------------
     floyd_warshall::floyd_warshall(matrix, graph.nV());
 
-
     //--------------------------------------------------------------------------
     // start parallel Floyd Warshall algorithm
     //--------------------------------------------------------------------------
@@ -96,12 +95,13 @@ int main(int argc, char* argv[]) {
         }
       }
     }
-
+    
+    // cleanup memory
     for (int i = 0; i < graph.nV(); i++)
         delete[] matrix[i];
     delete[] matrix;
 
-    // cleanup memory
+
     free(matrix_h);
 
 }

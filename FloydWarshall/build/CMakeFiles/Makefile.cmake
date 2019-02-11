@@ -48,7 +48,7 @@ set(CMAKE_MAKEFILE_OUTPUTS
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o.cmake.pre-gen"
-  "CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o.cmake"
+  "CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o.Release.cmake"
   "CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
