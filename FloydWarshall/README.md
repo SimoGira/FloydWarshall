@@ -4,8 +4,12 @@
 cd build
 cmake ..
 make
-./floydwarshall <file.mtx>
+./floydwarshall <file.mtx> <kernel number>
 ```
+
+Possibile kernel numbers:
+1) Naive
+2) Blocked
 
 # Dataset #
 

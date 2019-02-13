@@ -30,7 +30,7 @@ void printMatrix_host(matrix_t **A, int height, int width) {
 }
 
 int main(int argc, char* argv[]) {
-    if (argc != 2)
+    if (argc != 3)
         return EXIT_FAILURE;
 
     graph::GraphWeight<int, int, matrix_t> graph(graph::structure_prop::COO);
@@ -48,7 +48,6 @@ int main(int argc, char* argv[]) {
     for (int i = 0; i < graph.nE(); i++) {
         auto index = graph.coo_ptr()[i];
         matrix[std::get<0>(index)][std::get<1>(index)] = std::get<2>(index);
-        //std::cout << matrix[std::get<0>(index)][std::get<1>(index)] << " "<< '\n';
     }
 
     // copy the matrix for the parallel algorithm
@@ -73,7 +72,7 @@ int main(int argc, char* argv[]) {
     // start parallel Floyd Warshall algorithm
     //--------------------------------------------------------------------------
     // cudaProfilerStart();
-    parallel_floyd_warshall(matrix_h, graph.nV());
+    parallel_floyd_warshall(matrix_h, graph.nV(), atoi(argv[2]));
     // cudaProfilerStop();
 
 

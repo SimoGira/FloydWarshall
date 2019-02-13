@@ -5,35 +5,12 @@
 
 #define BLOCK_SIZE 32
 
-char select_kernel() {
-  char choice = NULL;
-  do {
-    std::cout << "1) Naive" << '\n';
-    std::cout << "2) Blocked" << '\n';
-    std::cout << "Select the kernel: ";
-
-    std::cin >> choice;
-    std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
-    if (choice != '1' && choice != '2') {
-      choice = NULL;
-      std::cout << '\n';
-    }
-  } while (choice == NULL);
-
-  return choice;
-}
-
-
 // ----------------------------------------------------------------------------
 // PERFORM PARALLEL FLOYD-WARSHALL
 // ----------------------------------------------------------------------------
 template <typename T>
-void parallel_floyd_warshall(T* h_N, int n) {
+void parallel_floyd_warshall(T* h_N, int n, int kernel_number) {
   printf("Called parallel_floyd_warshall\n");
-
-  char kernel_selected = select_kernel();
 
   float *d_N;
   int size = n * n * sizeof(float);
@@ -62,13 +39,13 @@ void parallel_floyd_warshall(T* h_N, int n) {
   // cudaEventRecord(startTimeCuda, 0);
   // cudaEventSynchronize(startTimeCuda);
 
-  switch (kernel_selected) {
-    case '1':
+  switch (kernel_number) {
+    case 1:
       for (int k = 0; k < n; k++) {
         naive_floyd_warshall_kernel <<< dimGrid, dimBlock >>> (d_N, n, k);
       }
       break;
-    case '2':
+    case 2:
       // TODO Blocked_kernel
       break;
     default:
@@ -93,4 +70,4 @@ void parallel_floyd_warshall(T* h_N, int n) {
   // return msTime;
 }
 
-template void parallel_floyd_warshall<float>(float*, int);
+template void parallel_floyd_warshall<float>(float*, int, int);
