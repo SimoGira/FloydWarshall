@@ -95,7 +95,7 @@ int main(int argc, char* argv[]) {
         }
       }
     }
-    
+
     // cleanup memory
     for (int i = 0; i < graph.nV(); i++)
         delete[] matrix[i];

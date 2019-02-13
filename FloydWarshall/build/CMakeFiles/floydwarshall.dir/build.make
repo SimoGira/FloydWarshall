@@ -58,6 +58,7 @@ include CMakeFiles/floydwarshall.dir/progress.make
 include CMakeFiles/floydwarshall.dir/flags.make
 
 CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: ../include/FloydWarshall.cuh
+CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: ../include/Kernels.cuh
 CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: ../src/FloydWarshall.cu
 CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/alloca.h
 CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: /usr/include/asm-generic/errno-base.h

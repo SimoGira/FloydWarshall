@@ -18,17 +18,6 @@
     } \
 }
 
-////////////////////////////////////////////////////////////////////////////////
-//! Simple floyd_warshall kernel
-//! @param d_N  input data in global memory
-//! @param d_M  input mask data in global memory
-//! @param d_P  output data in global memory
-//! @param height  number of rows of the input matrix N
-//! @param widht  number of cols of the input matrix N
-////////////////////////////////////////////////////////////////////////////////
-__global__
-void parallel_floyd_warshall_kernel(float *N, int size, int k);
-
 
 template<typename T>
 void parallel_floyd_warshall(T* h_N, int n);

@@ -1,33 +1,29 @@
 
+#pragma once
 #include "FloydWarshall.cuh"
-#include <iostream>
-#include <limits>
+#include "Kernels.cuh"
 
 #define BLOCK_SIZE 32
 
-__constant__ auto INF = std::numeric_limits<float>::infinity();   // qui andrebbe sistemato in modo che al posto di float accetti T
+char select_kernel() {
+  char choice = NULL;
+  do {
+    std::cout << "1) Naive" << '\n';
+    std::cout << "2) Blocked" << '\n';
+    std::cout << "Select the kernel: ";
 
-__global__
-void parallel_floyd_warshall_kernel(float *N, int n, int k) {
+    std::cin >> choice;
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-  const unsigned int i = blockIdx.y * blockDim.y + threadIdx.y;
-  const unsigned int j = blockIdx.x * blockDim.x + threadIdx.x;
+    if (choice != '1' && choice != '2') {
+      choice = NULL;
+      std::cout << '\n';
+    }
+  } while (choice == NULL);
 
-  // check for a valid range
-  if (i >= n || j >= n || k >= n || i == j) return;
-
-  const float i_k_value = N[i * n + k];
-  const float k_j_value = N[k * n + j];
-  const float i_j_value = N[i * n + j];
-
-  if (i_k_value != INF && k_j_value != INF) {
-      float sum = i_k_value + k_j_value;
-      if (sum < i_j_value) {
-          N[i * n + j] = sum;
-      }
-  }
+  return choice;
 }
-
 
 
 // ----------------------------------------------------------------------------
@@ -36,6 +32,8 @@ void parallel_floyd_warshall_kernel(float *N, int n, int k) {
 template <typename T>
 void parallel_floyd_warshall(T* h_N, int n) {
   printf("Called parallel_floyd_warshall\n");
+
+  char kernel_selected = select_kernel();
 
   float *d_N;
   int size = n * n * sizeof(float);
@@ -53,19 +51,28 @@ void parallel_floyd_warshall(T* h_N, int n) {
   // copy infinty constant to constant memory
   //CHECK_ERROR(cudaMemcpyToSymbol(dest, source, size));
 
-  // 2. Kernel launch code - to have the device to perform the Floyd Warshall algorithm
-  // ------------------- CUDA COMPUTATION ---------------------------
-  // cudaEventRecord(startTimeCuda, 0);
-  // cudaEventSynchronize(startTimeCuda);
-
   dim3 dimGrid(ceil(n / (float)BLOCK_SIZE), ceil(n / (float)BLOCK_SIZE), 1);
   dim3 dimBlock(BLOCK_SIZE, BLOCK_SIZE, 1.0);
 
   printf("Grid:   {%d,\t%d,\t%d} blocks.\nBlocks: {%d,\t%d,\t%d} threads.\n", \
           dimGrid.x, dimGrid.y, dimGrid.z, dimBlock.x, dimBlock.y, dimBlock.z);
 
-  for (int k = 0; k < n; k++) {
-    parallel_floyd_warshall_kernel <<< dimGrid, dimBlock >>> (d_N, n, k);
+  // 2. Kernel launch code - to have the device to perform the Floyd Warshall algorithm
+  // ------------------- CUDA COMPUTATION ---------------------------
+  // cudaEventRecord(startTimeCuda, 0);
+  // cudaEventSynchronize(startTimeCuda);
+
+  switch (kernel_selected) {
+    case '1':
+      for (int k = 0; k < n; k++) {
+        naive_floyd_warshall_kernel <<< dimGrid, dimBlock >>> (d_N, n, k);
+      }
+      break;
+    case '2':
+      // TODO Blocked_kernel
+      break;
+    default:
+      break;
   }
 
   // cudaEventRecord(stopTimeCuda, 0);
