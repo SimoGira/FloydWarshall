@@ -3,8 +3,6 @@
 #include "FloydWarshall.cuh"
 #include "Kernels.cuh"
 
-#define BLOCK_SIZE 32
-
 // ----------------------------------------------------------------------------
 // PERFORM PARALLEL FLOYD-WARSHALL
 // ----------------------------------------------------------------------------
@@ -54,6 +52,12 @@ void parallel_floyd_warshall(T* h_N, int n, int kernel_number) {
 
   // cudaEventRecord(stopTimeCuda, 0);
   // cudaEventSynchronize(stopTimeCuda);
+
+  cudaError_t err = cudaGetLastError();
+  if (err != cudaSuccess) {
+    fprintf(stderr, "Failed to launch kernel %d (error code %s)!\n", kernel_number, cudaGetErrorString(err));
+    exit(EXIT_FAILURE);
+  }
 
   // ---------------------- CUDA ENDING -----------------------------
   // float msTime;
