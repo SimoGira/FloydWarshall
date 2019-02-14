@@ -44,6 +44,11 @@ void parallel_floyd_warshall(T* h_N, int n, int kernel_number) {
       }
       break;
     case 2:
+      dim3 dimGrid(n, n, 1);                      // < ---- check!!!
+      for(int k = 0; k < n; ++k)
+        coa_floyd_warshall_kernel<<<dimGrid, 1>>>(d_N, n, k);
+      break;
+    case 3:
       // TODO Blocked_kernel
       break;
     default:
