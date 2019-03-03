@@ -4,7 +4,7 @@
 #include <limits>
 
 #define BLOCK_SIZE 32
-#define TILE_WIDTH 1024
+#define TILE_WIDTH 2
 
 __constant__ auto INF = std::numeric_limits<float>::infinity();   // qui andrebbe sistemato in modo che al posto di float accetti T
 
@@ -66,27 +66,23 @@ __global__ void coa_floyd_warshall_kernel(float *N, int n, int k) {
 //! @param d_N  input data in global memory
 //! @param n  number of verticies of the input matrix N
 //! @param k  index of the intermediate vertex
+//! @brief Here there is not warp divergence but it's missing memory coalescing
 ////////////////////////////////////////////////////////////////////////////////
 __global__ void sm_floyd_warshall_kernel(float *N, int n, int k) {
 
     const unsigned int i = blockIdx.y * blockDim.y + threadIdx.y;
     const unsigned int j = blockIdx.x * blockDim.x + threadIdx.x;
 
-    //printf("blockIdx.y = %d\n", blockIdx.y);
-
     // check for a valid range
     if (i >= n || j >= n || k >= n/* || i == j*/) return;
 
     // read in dependent values
     float i_j_value = N[i * n + j];
-    //float i_k_value = N[i * n + k];
     float k_j_value = N[k * n + j];
 
-    //__shared__ float k_j_value;
     __shared__ float i_k_value;
 
     if (threadIdx.x == 0) {
-        //k_j_value = N[k * n + j];
         i_k_value = N[i * n + k];
     }
     __syncthreads();
@@ -100,4 +96,133 @@ __global__ void sm_floyd_warshall_kernel(float *N, int n, int k) {
             N[i * n + j] = sum;
         }
     }
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+//! 3-Phase blocked floyd_warshall kernel implementation
+////////////////////////////////////////////////////////////////////////////////
+/*
+ * This kernel computes the first phase (self-dependent block)
+ *
+ * @param matrix A pointer to the adjacency matrix
+ * @param size   The width of the matrix
+ * @param base   The base index for a block
+ */
+__global__ void phase1(float *matrix, int size, int base)
+{
+    // computes the index for a thread
+    int index = (base + threadIdx.y) * size + (base + threadIdx.x);
+
+    printf("base = %d: t[%d][%d],\tb[%d][%d] -- index = %d\n", base, threadIdx.x, threadIdx.y, blockIdx.x, blockIdx.y, index);
+
+
+    // loads data from global memory to shared memory
+    __shared__ float subMatrix[TILE_WIDTH][TILE_WIDTH];
+    subMatrix[threadIdx.y][threadIdx.x] = matrix[index];
+    __syncthreads();
+
+    // run Floyd-Warshall
+    float sum;
+    for (int k = 0; k < TILE_WIDTH; ++k)
+    {
+        sum = subMatrix[threadIdx.y][k] + subMatrix[k][threadIdx.x];
+        if (sum < subMatrix[threadIdx.y][threadIdx.x])
+            subMatrix[threadIdx.y][threadIdx.x] = sum;
+    }
+
+    // write back to global memory
+    matrix[index] = subMatrix[threadIdx.y][threadIdx.x];
+}
+
+/*
+ * This kernel computes the second phase (singly-dependent blocks)
+ *
+ * @param matrix A pointer to the adjacency matrix
+ * @param size   The width of the matrix
+ * @param stage  The current stage of the algorithm
+ * @param base   The base index for a block
+ */
+__global__ void phase2(float *matrix, int size, int stage, int base)
+{
+    // computes the index for a thread
+    if (blockIdx.x == stage) return;
+
+    int i, j, i_prim, j_prim;
+    i_prim = base + threadIdx.y;
+    j_prim = base + threadIdx.x;
+    if (blockIdx.y) // load for column
+    {
+        i = TILE_WIDTH * blockIdx.x + threadIdx.y;
+        j = j_prim;
+    } else { // load for row
+        j = TILE_WIDTH * blockIdx.x + threadIdx.x;
+        i = i_prim;
+    }
+    int index = i * size + j;
+    int index_prim = i_prim * size + j_prim;
+
+    // loads data from global memory to shared memory
+    __shared__ float ownMatrix[TILE_WIDTH][TILE_WIDTH];
+    __shared__ float primaryMatrix[TILE_WIDTH][TILE_WIDTH];
+    ownMatrix[threadIdx.y][threadIdx.x] = matrix[index];
+    primaryMatrix[threadIdx.y][threadIdx.x] = matrix[index_prim];
+    __syncthreads();
+
+    // run Floyd Warshall
+    float sum;
+    for (int k = 0; k < TILE_WIDTH; ++k)
+    {
+        sum = ownMatrix[threadIdx.y][k] + primaryMatrix[k][threadIdx.x];
+        if (sum < ownMatrix[threadIdx.y][threadIdx.x])
+            ownMatrix[threadIdx.y][threadIdx.x] = sum;
+    }
+
+    // write back to global memory
+    matrix[index] = ownMatrix[threadIdx.y][threadIdx.x];
+}
+
+
+/*
+ * This kernel computes the third phase (doubly-dependent blocks)
+ *
+ * @param matrix A pointer to the adjacency matrix
+ * @param size   The width of the matrix
+ * @param stage  The current stage of the algorithm
+ * @param base   The base index for a block
+ */
+__global__ void phase3(float *matrix, int size, int stage, int base)
+{
+    // computes the index for a thread
+    if (blockIdx.x == stage || blockIdx.y == stage) return;
+
+    int i, j, j_col, i_row;
+    i = TILE_WIDTH * blockIdx.y + threadIdx.y;
+    j = TILE_WIDTH * blockIdx.x + threadIdx.x;
+    i_row = base + threadIdx.y;
+    j_col = base + threadIdx.x;
+    int index, index_row, index_col;
+    index = i * size + j;
+    index_row = i_row * size + j;
+    index_col = i * size + j_col;
+
+    // loads data from global memory into shared memory
+    __shared__ float rowMatrix[TILE_WIDTH][TILE_WIDTH];
+    __shared__ float colMatrix[TILE_WIDTH][TILE_WIDTH];
+    int i_j = matrix[index];
+    rowMatrix[threadIdx.y][threadIdx.x] = matrix[index_row];
+    colMatrix[threadIdx.y][threadIdx.x] = matrix[index_col];
+    __syncthreads();
+
+    // run Floyd Warshall
+    float sum;
+    for (int k = 0; k < TILE_WIDTH; ++k)
+    {
+        sum = colMatrix[threadIdx.y][k] + rowMatrix[k][threadIdx.x];
+        if (sum < i_j)
+		    i_j = sum;
+    }
+
+    // write back to global memory
+    matrix[index] = i_j;
 }

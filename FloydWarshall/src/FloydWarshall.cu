@@ -27,6 +27,18 @@ float parallel_floyd_warshall(T* h_N, int n, int kernel_number) {
   dim3 dimGrid;
   dim3 dimBlock;
 
+// For blocked algorithm
+/******************************************************************************/
+  int stages = ceil(n / (float)TILE_WIDTH);
+  std::cout << "stages: " << stages << '\n';
+
+  // dimensions
+  dim3 blockSize(TILE_WIDTH, TILE_WIDTH, 1);
+  dim3 phase1Grid(1, 1, 1);
+  dim3 phase2Grid(stages, 2, 1);
+  dim3 phase3Grid(stages, stages, 1);
+/******************************************************************************/
+
   // printf("Grid:   {%d,\t%d,\t%d} blocks.\nBlocks: {%d,\t%d,\t%d} threads.\n", \
   //         dimGrid.x, dimGrid.y, dimGrid.z, dimBlock.x, dimBlock.y, dimBlock.z);
 
@@ -50,17 +62,28 @@ float parallel_floyd_warshall(T* h_N, int n, int kernel_number) {
         coa_floyd_warshall_kernel<<<dimGrid, dimBlock>>>(d_N, n, k);
       break;
     case 3:
-      dimGrid = dim3(ceil(n / (float)TILE_WIDTH), n, 1.0);
-      dimBlock = dim3(TILE_WIDTH, 1.0, 1.0);
-
-      // printf("Grid:   {%d,\t%d,\t%d} blocks.\nBlocks: {%d,\t%d,\t%d} threads.\n", \
-      //         dimGrid.x, dimGrid.y, dimGrid.z, dimBlock.x, dimBlock.y, dimBlock.z);
+      dimGrid = dim3(ceil(n / (float)BLOCK_SIZE), n, 1.0);
+      dimBlock = dim3(BLOCK_SIZE, 1.0, 1.0);
 
       for(int k = 0; k < n; ++k)
         sm_floyd_warshall_kernel<<<dimGrid, dimBlock>>>(d_N, n, k);
       break;
     case 4:
       // TODO Blocked_kernel
+
+
+
+      // run kernel
+      for(int k = 0; k < stages; k++) {
+    		int base = TILE_WIDTH * k;
+        phase1<<<phase1Grid, blockSize>>>(d_N, n, base);
+        phase2<<<phase2Grid, blockSize>>>(d_N, n, k, base);
+        phase3<<<phase3Grid, blockSize>>>(d_N, n, k, base);
+      }
+
+
+
+
       break;
     default:
       break;
