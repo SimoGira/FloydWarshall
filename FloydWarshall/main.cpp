@@ -62,17 +62,31 @@ int main(int argc, char* argv[]) {
       }
     }
 
+    float msTime, msTime_seq;
+    cudaEvent_t startTimeCuda, stopTimeCuda;
+    cudaEventCreate(&startTimeCuda);
+    cudaEventCreate(&stopTimeCuda);
+
 
     //--------------------------------------------------------------------------
     // start sequential Floyd Warshall algorithm
     //--------------------------------------------------------------------------
+    cudaEventRecord(startTimeCuda, 0);
+    cudaEventSynchronize(startTimeCuda);
+
     floyd_warshall::floyd_warshall(matrix, graph.nV());
+
+    cudaEventRecord(stopTimeCuda, 0);
+    cudaEventSynchronize(stopTimeCuda);
+    cudaEventElapsedTime(&msTime_seq, startTimeCuda, stopTimeCuda);
+    printf("HostTime: %f\n", msTime_seq);
+
 
     //--------------------------------------------------------------------------
     // start parallel Floyd Warshall algorithm
     //--------------------------------------------------------------------------
     // cudaProfilerStart();
-    parallel_floyd_warshall(matrix_h, graph.nV(), atoi(argv[2]));
+    msTime = parallel_floyd_warshall(matrix_h, graph.nV(), atoi(argv[2]));
     // cudaProfilerStop();
 
 
@@ -85,7 +99,7 @@ int main(int argc, char* argv[]) {
     // printf("\n");
 
 
-    // Verify that the result matrix is correct
+    // Verify that the result is correct
     for (int i = 0; i < graph.nV(); ++i) {
       for (int j = 0; j < graph.nV(); j++) {
         if (fabs(matrix_h[i*graph.nV()+j] - matrix[i][j]) > 1e-5) {
@@ -94,6 +108,9 @@ int main(int argc, char* argv[]) {
         }
       }
     }
+
+    // SPEED UP
+    printf("Speedup: %f\n", msTime_seq / msTime);
 
     // cleanup memory
     for (int i = 0; i < graph.nV(); i++)
