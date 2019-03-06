@@ -78,10 +78,17 @@ float parallel_floyd_warshall(T* h_N, int n, int kernel_number) {
 
       // run kernel
       for(int k = 0; k < stages; k++) {
-    		int base = TILE_WIDTH * k;
+    		int base = TILE_WIDTH * (k);
+
+        //printf("stage    = %d\n", k);
+        //printf("base = %d\n", base);
         phase1<<<phase1Grid, blockSize>>>(d_N, n, base);
+
         phase2<<<phase2Grid, blockSize>>>(d_N, n, k, base);
-        phase3<<<phase3Grid, blockSize>>>(d_N, n, k, base);
+
+        break;
+
+        //phase3<<<phase3Grid, blockSize>>>(d_N, n, k, base);
 
       }
 

@@ -90,24 +90,24 @@ int main(int argc, char* argv[]) {
     // cudaProfilerStop();
 
 
-    // printf("Result from HOST:\n");
-    // printMatrix_host(matrix, graph.nV(), graph.nV());
-    // printf("\n");
-    //
-    // printf("Result from GPU:\n");
-    // printMatrix(matrix_h, graph.nV(), graph.nV());
-    // printf("\n");
+    printf("Result from HOST:\n");
+    printMatrix_host(matrix, graph.nV(), graph.nV());
+    printf("\n");
+
+    printf("Result from GPU:\n");
+    printMatrix(matrix_h, graph.nV(), graph.nV());
+    printf("\n");
 
 
     // Verify that the result is correct
-    // for (int i = 0; i < graph.nV(); ++i) {
-    //   for (int j = 0; j < graph.nV(); j++) {
-    //     if (fabs(matrix_h[i*graph.nV()+j] - matrix[i][j]) > 1e-5) {
-    //         fprintf(stderr, "Result verification failed at element [%d][%d]!\n", i, j);
-    //         exit(EXIT_FAILURE);
-    //     }
-    //   }
-    // }
+    for (int i = 0; i < graph.nV(); ++i) {
+      for (int j = 0; j < graph.nV(); j++) {
+        if (fabs(matrix_h[i*graph.nV()+j] - matrix[i][j]) > 1e-5) {
+            fprintf(stderr, "Result verification failed at element [%d][%d]!\n", i, j);
+            exit(EXIT_FAILURE);
+        }
+      }
+    }
 
     // SPEED UP
     printf("Speedup: %f\n", msTime_seq / msTime);
