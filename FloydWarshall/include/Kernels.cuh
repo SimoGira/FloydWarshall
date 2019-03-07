@@ -156,7 +156,7 @@ __global__ void phase2(float *matrix, int size, int stage, int base) {
   int bx = blockIdx.x;
 
   // computes the index for a thread
-  if (bx == stage/* && by == stage || stage == 0*/) return; // don't compute the kk block
+  //if (bx == stage/* && by == stage || stage == 0*/) return; // don't compute the kk block
 
   // primary matrix is the matrix of the pivot (computed in phase 1)
 
@@ -164,14 +164,27 @@ __global__ void phase2(float *matrix, int size, int stage, int base) {
   i_prim = base + ty;  // pivot rows
   j_prim = base + tx;  // pivot cols
 
-  // we have only 2 rows in the grid, then blockIdx.y can be only 0 or 1
 
+  // we have only 2 rows in the grid, then blockIdx.y can be only 0 or 1
   if (by) { // load for column
-    i = TILE_WIDTH * bx + ty;// + TILE_WIDTH;
-    j = j_prim;
+    if (bx < stage) {
+      i = TILE_WIDTH * bx + ty;// + TILE_WIDTH;
+      j = j_prim;
+    }
+    else {
+      i = TILE_WIDTH * (bx + 1) + ty;// + TILE_WIDTH;
+      j = j_prim;
+    }
   } else {  // load for row
-    i = i_prim;
-    j = TILE_WIDTH * bx + tx;// + TILE_WIDTH;
+    if (bx < stage) {
+      i = i_prim;
+      j = TILE_WIDTH * bx + tx;// + TILE_WIDTH;
+    }
+    else {
+      i = i_prim;
+      j = TILE_WIDTH * (bx + 1) + tx;// + TILE_WIDTH;
+    }
+
   }
   int index = i * size + j;
   int index_prim = i_prim * size + j_prim;
@@ -180,7 +193,7 @@ __global__ void phase2(float *matrix, int size, int stage, int base) {
   //   printf("i = %d\nj = %d\n", i,j);
   // }
 
-  //printf("t[%d][%d], b[%d][%d] -- (i,j) = (%d,%d) | (i_prim,j_prim) = (%d,%d)\n", tx, ty, blockIdx.x, blockIdx.y, i, j, i_prim, j_prim);
+  //printf("base = %d ------ t[%d][%d], b[%d][%d] -- (i,j) = (%d,%d) | (i_prim,j_prim) = (%d,%d)\n", base, ty, tx, by, bx, i, j, i_prim, j_prim);
 
   // loads data from global memory to shared memory
   __shared__ float ownMatrix[TILE_WIDTH][TILE_WIDTH];
@@ -190,7 +203,7 @@ __global__ void phase2(float *matrix, int size, int stage, int base) {
   __syncthreads();
 
 
-  // if(tx == 0 && ty == 0 && bx == 1 && by == 0) {
+  // if(tx == 0 && ty == 0 && bx == 0 && by == 1) {
   //   // print matrix
   //   printf("ownMatrix\n");
   //   for (int s = 0; s < TILE_WIDTH; s++) {
@@ -221,15 +234,23 @@ __global__ void phase2(float *matrix, int size, int stage, int base) {
   // run Floyd Warshall
   float sum;
   for (int k = 0; k < TILE_WIDTH; k++) {
-      __syncthreads();
-      printf("t[%d][%d], b[%d][%d] --> index[%d][%d] -- min(%.1f, %.1f + %.1f)\n",ty, tx, by, bx, i, j, ownMatrix[ty][tx], primaryMatrix[ty][k], ownMatrix[k][tx]);
-      __syncthreads();
 
-      sum = primaryMatrix[ty][k] + ownMatrix[k][tx];
+      if (by) {
+        //printf("k = %d ----- t[%d][%d], b[%d][%d] --> index[%d][%d] -- min(%.1f, %.1f + %.1f)\n", k, ty, tx, by, bx, i, j, ownMatrix[ty][tx], ownMatrix[ty][k], primaryMatrix[k][tx]);
+        sum = ownMatrix[ty][k] + primaryMatrix[k][tx];
+      }
+      else {
+        //printf("k = %d ----- t[%d][%d], b[%d][%d] --> index[%d][%d] -- min(%.1f, %.1f + %.1f)\n", k, ty, tx, by, bx, i, j, ownMatrix[ty][tx], primaryMatrix[ty][k], ownMatrix[k][tx]);
+        sum = primaryMatrix[ty][k] + ownMatrix[k][tx];
+      }
+
+
       if (sum < ownMatrix[ty][tx]) {
           ownMatrix[ty][tx] = sum;
       }
   }
+
+  //__syncthreads();
 
   // write back to global memory
   matrix[index] = ownMatrix[ty][tx];
@@ -253,7 +274,7 @@ __global__ void phase2(float *matrix, int size, int stage, int base) {
    int by = blockIdx.y;
 
    // computes the index for a thread
-   if (bx == stage || by == stage/* || stage == 0*/) return;
+   //if (bx == stage || by == stage/* || stage == 0*/) return;
 
    int i, j, j_col, i_row;
    i = TILE_WIDTH * by + ty;

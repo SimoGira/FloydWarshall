@@ -35,8 +35,8 @@ float parallel_floyd_warshall(T* h_N, int n, int kernel_number) {
   // dimensions
   dim3 blockSize(TILE_WIDTH, TILE_WIDTH, 1);
   dim3 phase1Grid(1, 1, 1);
-  dim3 phase2Grid(stages, 2, 1);
-  dim3 phase3Grid(stages, stages, 1);
+  dim3 phase2Grid(stages-1, 2, 1);
+  dim3 phase3Grid(stages-1, stages-1, 1);
 /******************************************************************************/
 
   // printf("Grid:   {%d,\t%d,\t%d} blocks.\nBlocks: {%d,\t%d,\t%d} threads.\n", \
@@ -86,9 +86,9 @@ float parallel_floyd_warshall(T* h_N, int n, int kernel_number) {
 
         phase2<<<phase2Grid, blockSize>>>(d_N, n, k, base);
 
-        break;
+        phase3<<<phase3Grid, blockSize>>>(d_N, n, k, base);
 
-        //phase3<<<phase3Grid, blockSize>>>(d_N, n, k, base);
+        break;
 
       }
 
