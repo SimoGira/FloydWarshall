@@ -4,7 +4,7 @@
 #include <limits>
 
 #define BLOCK_SIZE 32
-#define TILE_WIDTH 2
+#define TILE_WIDTH 3
 
 __constant__ auto INF = std::numeric_limits<float>::infinity();   // qui andrebbe sistemato in modo che al posto di float accetti T
 
@@ -118,13 +118,31 @@ __global__ void phase1(float *matrix, int size, int base) {
   // computes the index for a thread
   int index = (base + ty) * size + (base + tx);
 
-  //printf("base = %d: t[%d][%d],\tb[%d][%d] -- index = %d\n", base, tx, ty, blockIdx.x, blockIdx.y, index);
+  if (index >= size*size) return;
+
+  printf("base = %d: t[%d][%d],\tb[%d][%d] -- index = %d\n", base, tx, ty, blockIdx.x, blockIdx.y, index);
+
 
 
   // loads data from global memory to shared memory
   __shared__ float subMatrix[TILE_WIDTH][TILE_WIDTH];
   subMatrix[ty][tx] = matrix[index];
   __syncthreads();
+
+
+  // if(tx == 0 && ty == 0 && blockIdx.x == 0 && blockIdx.y == 0) {
+  //   // print matrix
+  //   printf("subMatrix\n");
+  //   for (int s = 0; s < TILE_WIDTH; s++) {
+  //     for (int w = 0; w < TILE_WIDTH; w++) {
+  //       printf("%.1f ", subMatrix[s][w]);
+  //     }
+  //     printf("\n");
+  //   }
+  // }
+
+
+
 
   // run Floyd-Warshall
   float sum;
@@ -165,29 +183,32 @@ __global__ void phase2(float *matrix, int size, int stage, int base) {
   j_prim = base + tx;  // pivot cols
 
 
-  // we have only 2 rows in the grid, then blockIdx.y can be only 0 or 1
+  // here we have only 2 rows in the grid, then blockIdx.y can be only 0 or 1
   if (by) { // load for column
     if (bx < stage) {
-      i = TILE_WIDTH * bx + ty;// + TILE_WIDTH;
+      i = TILE_WIDTH * bx + ty;
       j = j_prim;
     }
     else {
-      i = TILE_WIDTH * (bx + 1) + ty;// + TILE_WIDTH;
+      i = TILE_WIDTH * (bx + 1) + ty;
       j = j_prim;
     }
   } else {  // load for row
     if (bx < stage) {
       i = i_prim;
-      j = TILE_WIDTH * bx + tx;// + TILE_WIDTH;
+      j = TILE_WIDTH * bx + tx;
     }
     else {
       i = i_prim;
-      j = TILE_WIDTH * (bx + 1) + tx;// + TILE_WIDTH;
+      j = TILE_WIDTH * (bx + 1) + tx;
     }
-
   }
   int index = i * size + j;
   int index_prim = i_prim * size + j_prim;
+
+  if (index >= size*size) return;
+
+  //printf("base = %d: t[%d][%d],\tb[%d][%d] -- index = %d\n", base, tx, ty, blockIdx.x, blockIdx.y, index);
 
   // if (tx == 0 && ty == 0 && bx == 0 && by == 0) {
   //   printf("i = %d\nj = %d\n", i,j);
@@ -203,7 +224,7 @@ __global__ void phase2(float *matrix, int size, int stage, int base) {
   __syncthreads();
 
 
-  // if(tx == 0 && ty == 0 && bx == 0 && by == 1) {
+  // if(tx == 0 && ty == 0 && bx == 0 && by == 0) {
   //   // print matrix
   //   printf("ownMatrix\n");
   //   for (int s = 0; s < TILE_WIDTH; s++) {
@@ -277,29 +298,93 @@ __global__ void phase2(float *matrix, int size, int stage, int base) {
    //if (bx == stage || by == stage/* || stage == 0*/) return;
 
    int i, j, j_col, i_row;
-   i = TILE_WIDTH * by + ty;
-   j = TILE_WIDTH * bx + tx;
+
+   if (bx < stage && by < stage) {  // load upper left
+     i = TILE_WIDTH * by + ty;
+     j = TILE_WIDTH * bx + tx;
+   }
+   else if (by < stage) { // load upper right
+     i = TILE_WIDTH * by + ty;
+     j = TILE_WIDTH * (bx + 1) + tx;
+   }
+   else if (bx < stage) { // load bottom left
+     i = TILE_WIDTH * (by + 1) + ty;
+     j = TILE_WIDTH * bx + tx;
+   }
+   else { // load bottom right
+     i = TILE_WIDTH * (by + 1) + ty;
+     j = TILE_WIDTH * (bx + 1) + tx;
+   }
+
    i_row = base + ty;
    j_col = base + tx;
+
    int index, index_row, index_col;
    index = i * size + j;
    index_row = i_row * size + j;
    index_col = i * size + j_col;
 
+   if (index >= size*size) return;
+
+   //printf("base = %d: t[%d][%d],\tb[%d][%d] -- index = %d\n", base, tx, ty, blockIdx.x, blockIdx.y, index);
+
+
+   //printf("base = %d ------ t[%d][%d], b[%d][%d] -- (i,j) = (%d,%d) | (i_row,j_col) = (%d,%d) || index = %d || index_row = %d || index_col = %d\n", base, ty, tx, by, bx, i, j, i_row, j_col, index, index_row, index_col);
+
+
    // loads data from global memory into shared memory
    __shared__ float rowMatrix[TILE_WIDTH][TILE_WIDTH];
    __shared__ float colMatrix[TILE_WIDTH][TILE_WIDTH];
-   int i_j = matrix[index];
+   float i_j = matrix[index];
    rowMatrix[ty][tx] = matrix[index_row];
    colMatrix[ty][tx] = matrix[index_col];
    __syncthreads();
 
+
+
+
+
+
+
+   // if(tx == 0 && ty == 0 && bx == 0 && by == 0) {
+   //   // print matrix
+   //   printf("rowMatrix\n");
+   //   for (int s = 0; s < TILE_WIDTH; s++) {
+   //     for (int w = 0; w < TILE_WIDTH; w++) {
+   //       printf("%.1f ", rowMatrix[s][w]);
+   //     }
+   //     printf("\n");
+   //   }
+   //   printf("\n");
+   //   // print matrix
+   //   printf("colMatrix\n");
+   //   for (int s = 0; s < TILE_WIDTH; s++) {
+   //     for (int w = 0; w < TILE_WIDTH; w++) {
+   //       printf("%.1f ", colMatrix[s][w]);
+   //     }
+   //     printf("\n");
+   //   }
+   //   printf("\n");
+   // }
+   // __syncthreads();
+
+
+
+
+
+
    // run Floyd Warshall
    float sum;
    for (int k = 0; k < TILE_WIDTH; k++) {
+     //printf("k = %d ----- t[%d][%d], b[%d][%d] --> index[%d][%d] -- min(%.1f, %.1f + %.1f)\n", k, ty, tx, by, bx, i, j, i_j, colMatrix[ty][k], rowMatrix[k][tx]);
+     //printf("colMatrix[%d][%d] = %.1f\n", ty,k,colMatrix[ty][k]);
+
      sum = colMatrix[ty][k] + rowMatrix[k][tx];
-     if (sum < i_j)
-     i_j = sum;
+     if (i != j && sum < i_j) {
+       i_j = sum;
+     }
+    __syncthreads();
+
    }
 
    // write back to global memory

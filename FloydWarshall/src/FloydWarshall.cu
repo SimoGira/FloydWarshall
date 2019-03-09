@@ -73,20 +73,26 @@ float parallel_floyd_warshall(T* h_N, int n, int kernel_number) {
 
 
       printf("Grid:   {%d,\t%d,\t%d} blocks.\nBlocks: {%d,\t%d,\t%d} threads.\n", \
-              phase2Grid.x, phase2Grid.y, phase2Grid.z, blockSize.x, blockSize.y, blockSize.z);
+              phase1Grid.x, phase1Grid.y, phase1Grid.z, blockSize.x, blockSize.y, blockSize.z);
 
 
       // run kernel
       for(int k = 0; k < stages; k++) {
-    		int base = TILE_WIDTH * (k);
+    		int base = TILE_WIDTH * k;
 
         //printf("stage    = %d\n", k);
         //printf("base = %d\n", base);
         phase1<<<phase1Grid, blockSize>>>(d_N, n, base);
 
+        // if (k == 1) {
+        //   break;
+        // }
+
         phase2<<<phase2Grid, blockSize>>>(d_N, n, k, base);
 
-        phase3<<<phase3Grid, blockSize>>>(d_N, n, k, base);
+
+
+        //phase3<<<phase3Grid, blockSize>>>(d_N, n, k, base);
 
         break;
 
