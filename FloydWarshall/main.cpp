@@ -12,7 +12,7 @@ using matrix_t = float;
 void printMatrix(float *A, int height, int width) {
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
-            printf("%.1f ", A[i*height+j]);
+            printf("%.2f ", A[i*height+j]);
         }
         printf("\n");
     }
@@ -22,7 +22,7 @@ void printMatrix(float *A, int height, int width) {
 void printMatrix_host(matrix_t **A, int height, int width) {
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
-            printf("%.1f ", A[i][j]);
+            printf("%.2f ", A[i][j]);
         }
         printf("\n");
     }
@@ -79,7 +79,7 @@ int main(int argc, char* argv[]) {
     cudaEventRecord(stopTimeCuda, 0);
     cudaEventSynchronize(stopTimeCuda);
     cudaEventElapsedTime(&msTime_seq, startTimeCuda, stopTimeCuda);
-    //printf("HostTime: %f\n", msTime_seq);
+    printf("HostTime: %f\n", msTime_seq);
 
 
     //--------------------------------------------------------------------------
@@ -102,15 +102,15 @@ int main(int argc, char* argv[]) {
     // Verify that the result is correct
     for (int i = 0; i < graph.nV(); ++i) {
       for (int j = 0; j < graph.nV(); j++) {
-        if (fabs(matrix_h[i*graph.nV()+j] - matrix[i][j]) > 1e-3) {
+        if (fabs(matrix_h[i*graph.nV()+j] - matrix[i][j]) > 1e-0) {
             fprintf(stderr, "\033[0;31mError\033[0m: result verification failed at element [%d][%d]! -- %.2f != %.2f\n", i, j, matrix_h[i*graph.nV()+j], matrix[i][j]);
-            //exit(EXIT_FAILURE);
+            exit(EXIT_FAILURE);
         }
       }
     }
 
     // SPEED UP
-    //printf("Speedup: %f\n", msTime_seq / msTime);
+    printf("Speedup: %f\n", msTime_seq / msTime);
 
     // cleanup memory
     for (int i = 0; i < graph.nV(); i++)

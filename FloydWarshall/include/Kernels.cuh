@@ -4,7 +4,7 @@
 #include <limits>
 
 #define BLOCK_SIZE 32
-#define TILE_WIDTH 6
+#define TILE_WIDTH 32
 
 __constant__ auto INF = std::numeric_limits<float>::infinity();   // qui andrebbe sistemato in modo che al posto di float accetti T
 
@@ -118,8 +118,6 @@ __global__ void phase1(float *matrix, int size, int base) {
   int i = base + ty;
   int j = base + tx;
 
-  if (i >= size || j >= size) return;
-
 
   // computes the index for a thread
   int index = i * size + j;
@@ -128,11 +126,12 @@ __global__ void phase1(float *matrix, int size, int base) {
   //printf("base = %d: t[%d][%d],\tb[%d][%d] -- index = %d\n", base, tx, ty, blockIdx.x, blockIdx.y, index);
 
 
-
   // loads data from global memory to shared memory
   __shared__ float subMatrix[TILE_WIDTH][TILE_WIDTH];
-  subMatrix[ty][tx] = matrix[index];
+  subMatrix[ty][tx] = (i < size && j < size) ? matrix[index] : INF;
   __syncthreads();
+
+  if (i >= size || j >= size) return;
 
 
   // if(tx == 0 && ty == 0 && blockIdx.x == 0 && blockIdx.y == 0) {
