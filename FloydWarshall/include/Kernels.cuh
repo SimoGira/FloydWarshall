@@ -4,7 +4,7 @@
 #include <limits>
 
 #define BLOCK_SIZE 32
-#define TILE_WIDTH 3
+#define TILE_WIDTH 6
 
 __constant__ auto INF = std::numeric_limits<float>::infinity();   // qui andrebbe sistemato in modo che al posto di float accetti T
 
@@ -115,12 +115,17 @@ __global__ void phase1(float *matrix, int size, int base) {
   int ty = threadIdx.y;
   int tx = threadIdx.x;
 
+  int i = base + ty;
+  int j = base + tx;
+
+  if (i >= size || j >= size) return;
+
+
   // computes the index for a thread
-  int index = (base + ty) * size + (base + tx);
+  int index = i * size + j;
 
-  if (index >= size*size) return;
 
-  printf("base = %d: t[%d][%d],\tb[%d][%d] -- index = %d\n", base, tx, ty, blockIdx.x, blockIdx.y, index);
+  //printf("base = %d: t[%d][%d],\tb[%d][%d] -- index = %d\n", base, tx, ty, blockIdx.x, blockIdx.y, index);
 
 
 
@@ -206,25 +211,30 @@ __global__ void phase2(float *matrix, int size, int stage, int base) {
   int index = i * size + j;
   int index_prim = i_prim * size + j_prim;
 
-  if (index >= size*size) return;
+
 
   //printf("base = %d: t[%d][%d],\tb[%d][%d] -- index = %d\n", base, tx, ty, blockIdx.x, blockIdx.y, index);
 
-  // if (tx == 0 && ty == 0 && bx == 0 && by == 0) {
-  //   printf("i = %d\nj = %d\n", i,j);
-  // }
+
+  //printf("base = %d: t[%d][%d], b[%d][%d] -- index(i,j) = (%d,%d) -- index = %d\n", base, tx, ty, blockIdx.x, blockIdx.y, i,j, index);
+
+  //printf("base = %d: t[%d][%d], b[%d][%d] -- ownMatrix[%d][%d] = matrix[%d]\n", base, ty, tx, blockIdx.y, blockIdx.x, ty, tx, index);
+
+
 
   //printf("base = %d ------ t[%d][%d], b[%d][%d] -- (i,j) = (%d,%d) | (i_prim,j_prim) = (%d,%d)\n", base, ty, tx, by, bx, i, j, i_prim, j_prim);
 
   // loads data from global memory to shared memory
   __shared__ float ownMatrix[TILE_WIDTH][TILE_WIDTH];
   __shared__ float primaryMatrix[TILE_WIDTH][TILE_WIDTH];
-  ownMatrix[ty][tx] = matrix[index];
-  primaryMatrix[ty][tx] = matrix[index_prim];
+  ownMatrix[ty][tx] =  (i < size && j < size) ? matrix[index] : INF;
+  primaryMatrix[ty][tx] = (i_prim < size && j_prim < size) ? matrix[index_prim] : INF;
   __syncthreads();
 
+  if (i >= size || j >= size) return;
 
-  // if(tx == 0 && ty == 0 && bx == 0 && by == 0) {
+
+  // if(tx == 0 && ty == 0 && bx == 0 && by == 1) {
   //   // print matrix
   //   printf("ownMatrix\n");
   //   for (int s = 0; s < TILE_WIDTH; s++) {
@@ -269,6 +279,7 @@ __global__ void phase2(float *matrix, int size, int stage, int base) {
       if (sum < ownMatrix[ty][tx]) {
           ownMatrix[ty][tx] = sum;
       }
+      __syncthreads();
   }
 
   //__syncthreads();
@@ -324,7 +335,6 @@ __global__ void phase2(float *matrix, int size, int stage, int base) {
    index_row = i_row * size + j;
    index_col = i * size + j_col;
 
-   if (index >= size*size) return;
 
    //printf("base = %d: t[%d][%d],\tb[%d][%d] -- index = %d\n", base, tx, ty, blockIdx.x, blockIdx.y, index);
 
@@ -336,12 +346,12 @@ __global__ void phase2(float *matrix, int size, int stage, int base) {
    __shared__ float rowMatrix[TILE_WIDTH][TILE_WIDTH];
    __shared__ float colMatrix[TILE_WIDTH][TILE_WIDTH];
    float i_j = matrix[index];
-   rowMatrix[ty][tx] = matrix[index_row];
-   colMatrix[ty][tx] = matrix[index_col];
+   rowMatrix[ty][tx] = (i_row < size) ? matrix[index_row] : INF;
+   colMatrix[ty][tx] = (j_col < size) ? matrix[index_col] : INF;
    __syncthreads();
 
 
-
+   if (i >= size || j >= size) return;
 
 
 
