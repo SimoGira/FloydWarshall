@@ -19,7 +19,7 @@ __global__ void naive_floyd_warshall_kernel(float *N, int n, int k) {
     const unsigned int j = blockIdx.x;
 
     // check for a valid range
-    if (i >= n || j >= n || k >= n || i == j) return;
+    if (i >= n || j >= n || k >= n/* || i == j*/) return;
 
     const float i_k_value = N[i * n + k];
     const float k_j_value = N[k * n + j];
@@ -46,7 +46,7 @@ __global__ void coa_floyd_warshall_kernel(float *N, int n, int k) {
     const unsigned int j = blockIdx.x * blockDim.x + threadIdx.x;
 
     // check for a valid range
-    if (i >= n || j >= n || k >= n || i == j) return;
+    if (i >= n || j >= n || k >= n/* || i == j*/) return;
 
     const float i_k_value = N[i * n + k];
     const float k_j_value = N[k * n + j];
@@ -90,7 +90,7 @@ __global__ void sm_floyd_warshall_kernel(float *N, int n, int k) {
   //printf("k = %d: t[%d][%d],\tb[%d][%d] -- i_k_value = %.1f\n",k, threadIdx.x, threadIdx.y, blockIdx.x, blockIdx.y, i_k_value);
 
   // calculate shortest path
-  if(i_k_value != INF && k_j_value != INF && i != j) {
+  if(i_k_value != INF && k_j_value != INF/* && i != j*/) {
     float sum = i_k_value + k_j_value;
     if (sum < i_j_value) {
       N[i * n + j] = sum;
@@ -146,15 +146,14 @@ __global__ void phase1(float *matrix, int size, int base) {
   // }
 
 
-
-
   // run Floyd-Warshall
   float sum;
   for (int k = 0; k < TILE_WIDTH; k++) {
     sum = subMatrix[ty][k] + subMatrix[k][tx];
-    if (ty != tx && sum < subMatrix[ty][tx]) {
+    if (sum < subMatrix[ty][tx]) {
       subMatrix[ty][tx] = sum;
     }
+    __syncthreads();
   }
 
   // write back to global memory
@@ -211,15 +210,11 @@ __global__ void phase2(float *matrix, int size, int stage, int base) {
   int index_prim = i_prim * size + j_prim;
 
 
-
   //printf("base = %d: t[%d][%d],\tb[%d][%d] -- index = %d\n", base, tx, ty, blockIdx.x, blockIdx.y, index);
-
 
   //printf("base = %d: t[%d][%d], b[%d][%d] -- index(i,j) = (%d,%d) -- index = %d\n", base, tx, ty, blockIdx.x, blockIdx.y, i,j, index);
 
   //printf("base = %d: t[%d][%d], b[%d][%d] -- ownMatrix[%d][%d] = matrix[%d]\n", base, ty, tx, blockIdx.y, blockIdx.x, ty, tx, index);
-
-
 
   //printf("base = %d ------ t[%d][%d], b[%d][%d] -- (i,j) = (%d,%d) | (i_prim,j_prim) = (%d,%d)\n", base, ty, tx, by, bx, i, j, i_prim, j_prim);
 
@@ -257,28 +252,25 @@ __global__ void phase2(float *matrix, int size, int stage, int base) {
 
 
 
-
-
-
-
   // run Floyd Warshall
   float sum;
-  for (int k = 0; k < TILE_WIDTH; k++) {
-
-      if (by) {
-        //printf("k = %d ----- t[%d][%d], b[%d][%d] --> index[%d][%d] -- min(%.1f, %.1f + %.1f)\n", k, ty, tx, by, bx, i, j, ownMatrix[ty][tx], ownMatrix[ty][k], primaryMatrix[k][tx]);
-        sum = ownMatrix[ty][k] + primaryMatrix[k][tx];
-      }
-      else {
-        //printf("k = %d ----- t[%d][%d], b[%d][%d] --> index[%d][%d] -- min(%.1f, %.1f + %.1f)\n", k, ty, tx, by, bx, i, j, ownMatrix[ty][tx], primaryMatrix[ty][k], ownMatrix[k][tx]);
-        sum = primaryMatrix[ty][k] + ownMatrix[k][tx];
-      }
-
-
+  if (by) {
+    for (int k = 0; k < TILE_WIDTH; k++) {
+      sum = ownMatrix[ty][k] + primaryMatrix[k][tx];
       if (sum < ownMatrix[ty][tx]) {
           ownMatrix[ty][tx] = sum;
       }
       __syncthreads();
+    }
+  }
+  else {
+    for (int k = 0; k < TILE_WIDTH; k++) {
+      sum = primaryMatrix[ty][k] + ownMatrix[k][tx];
+      if (sum < ownMatrix[ty][tx]) {
+          ownMatrix[ty][tx] = sum;
+      }
+      __syncthreads();
+    }
   }
 
   //__syncthreads();
@@ -344,15 +336,13 @@ __global__ void phase2(float *matrix, int size, int stage, int base) {
    // loads data from global memory into shared memory
    __shared__ float rowMatrix[TILE_WIDTH][TILE_WIDTH];
    __shared__ float colMatrix[TILE_WIDTH][TILE_WIDTH];
-   float i_j = matrix[index];
-   rowMatrix[ty][tx] = (i_row < size) ? matrix[index_row] : INF;
-   colMatrix[ty][tx] = (j_col < size) ? matrix[index_col] : INF;
+   float i_j = (i < size && j < size) ? matrix[index] : INF;
+   rowMatrix[ty][tx] = (i_row < size && j < size) ? matrix[index_row] : INF;
+   colMatrix[ty][tx] = (j_col < size && i < size) ? matrix[index_col] : INF;
    __syncthreads();
 
 
    if (i >= size || j >= size) return;
-
-
 
 
    // if(tx == 0 && ty == 0 && bx == 0 && by == 0) {
@@ -379,9 +369,6 @@ __global__ void phase2(float *matrix, int size, int stage, int base) {
 
 
 
-
-
-
    // run Floyd Warshall
    float sum;
    for (int k = 0; k < TILE_WIDTH; k++) {
@@ -389,7 +376,7 @@ __global__ void phase2(float *matrix, int size, int stage, int base) {
      //printf("colMatrix[%d][%d] = %.1f\n", ty,k,colMatrix[ty][k]);
 
      sum = colMatrix[ty][k] + rowMatrix[k][tx];
-     if (i != j && sum < i_j) {
+     if (sum < i_j) {
        i_j = sum;
      }
     __syncthreads();

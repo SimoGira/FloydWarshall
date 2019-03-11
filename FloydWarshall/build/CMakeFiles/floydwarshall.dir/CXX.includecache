@@ -277,6 +277,8 @@ limits
 -
 cuda_profiler_api.h
 -
+algorithm
+-
 
 /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/src/FloydWarshall.cpp
 FloydWarshall.hpp

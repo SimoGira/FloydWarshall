@@ -69,7 +69,6 @@ float parallel_floyd_warshall(T* h_N, int n, int kernel_number) {
         sm_floyd_warshall_kernel<<<dimGrid, dimBlock>>>(d_N, n, k);
       break;
     case 4:
-      // TODO Blocked_kernel
 
       // printf("phase1Grid:   {%d,\t%d,\t%d} blocks. -- Blocks: {%d,\t%d,\t%d} threads.\n", \
       //         phase1Grid.x, phase1Grid.y, phase1Grid.z, blockSize.x, blockSize.y, blockSize.z);
@@ -88,19 +87,15 @@ float parallel_floyd_warshall(T* h_N, int n, int kernel_number) {
         phase1<<<phase1Grid, blockSize>>>(d_N, n, base);
 
 
-
-
         phase2<<<phase2Grid, blockSize>>>(d_N, n, k, base);
 
         // if (k == 1) {
         //   break;
         // }
 
-
         phase3<<<phase3Grid, blockSize>>>(d_N, n, k, base);
 
         //break;
-
       }
 
 
@@ -129,7 +124,7 @@ float parallel_floyd_warshall(T* h_N, int n, int kernel_number) {
   // 3. copy result from the device memory
   CHECK_ERROR(cudaMemcpy(h_N, d_N, size, cudaMemcpyDeviceToHost));
 
-  // // cleanup memory
+  // cleanup memory
   CHECK_ERROR(cudaFree(d_N));
 
   return msTime;
