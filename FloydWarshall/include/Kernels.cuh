@@ -19,7 +19,7 @@ __global__ void naive_floyd_warshall_kernel(float *N, int n, int k) {
     const unsigned int j = blockIdx.x;
 
     // check for a valid range
-    if (i >= n || j >= n || k >= n/* || i == j*/) return;
+    if (i >= n || j >= n || k >= n) return;
 
     const float i_k_value = N[i * n + k];
     const float k_j_value = N[k * n + j];
@@ -46,7 +46,7 @@ __global__ void coa_floyd_warshall_kernel(float *N, int n, int k) {
     const unsigned int j = blockIdx.x * blockDim.x + threadIdx.x;
 
     // check for a valid range
-    if (i >= n || j >= n || k >= n/* || i == j*/) return;
+    if (i >= n || j >= n || k >= n) return;
 
     const float i_k_value = N[i * n + k];
     const float k_j_value = N[k * n + j];
@@ -74,7 +74,7 @@ __global__ void sm_floyd_warshall_kernel(float *N, int n, int k) {
   const unsigned int j = blockIdx.x * blockDim.x + threadIdx.x;
 
   // check for a valid range
-  if (i >= n || j >= n || k >= n/* || i == j*/) return;
+  if (i >= n || j >= n || k >= n) return;
 
   // read in dependent values
   float i_j_value = N[i * n + j];
@@ -90,7 +90,7 @@ __global__ void sm_floyd_warshall_kernel(float *N, int n, int k) {
   //printf("k = %d: t[%d][%d],\tb[%d][%d] -- i_k_value = %.1f\n",k, threadIdx.x, threadIdx.y, blockIdx.x, blockIdx.y, i_k_value);
 
   // calculate shortest path
-  if(i_k_value != INF && k_j_value != INF/* && i != j*/) {
+  if(i_k_value != INF && k_j_value != INF) {
     float sum = i_k_value + k_j_value;
     if (sum < i_j_value) {
       N[i * n + j] = sum;
@@ -98,18 +98,16 @@ __global__ void sm_floyd_warshall_kernel(float *N, int n, int k) {
   }
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 //! 3-Phase parallel blocked floyd_warshall kernel implementation
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
-* This kernel computes the first phase (self-dependent block)
-*
-* @param matrix A pointer to the adjacency matrix
-* @param size   The width of the matrix
-* @param base   The base index for a block
-*/
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+//! This kernel computes the first phase (self-dependent block)
+//! @param matrix A pointer to the adjacency matrix
+//! @param size   The width of the matrix
+//! @param base   The base index for a block
+////////////////////////////////////////////////////////////////////////////////
 __global__ void phase1(float *matrix, int size, int base) {
 
   int ty = threadIdx.y;
@@ -118,32 +116,16 @@ __global__ void phase1(float *matrix, int size, int base) {
   int i = base + ty;
   int j = base + tx;
 
-
   // computes the index for a thread
   int index = i * size + j;
-
-
-  //printf("base = %d: t[%d][%d],\tb[%d][%d] -- index = %d\n", base, tx, ty, blockIdx.x, blockIdx.y, index);
-
 
   // loads data from global memory to shared memory
   __shared__ float subMatrix[TILE_WIDTH][TILE_WIDTH];
   subMatrix[ty][tx] = (i < size && j < size) ? matrix[index] : INF;
   __syncthreads();
 
+
   if (i >= size || j >= size) return;
-
-
-  // if(tx == 0 && ty == 0 && blockIdx.x == 0 && blockIdx.y == 0) {
-  //   // print matrix
-  //   printf("subMatrix\n");
-  //   for (int s = 0; s < TILE_WIDTH; s++) {
-  //     for (int w = 0; w < TILE_WIDTH; w++) {
-  //       printf("%.1f ", subMatrix[s][w]);
-  //     }
-  //     printf("\n");
-  //   }
-  // }
 
 
   // run Floyd-Warshall
@@ -160,14 +142,13 @@ __global__ void phase1(float *matrix, int size, int base) {
   matrix[index] = subMatrix[ty][tx];
 }
 
-/*
-* This kernel computes the second phase (singly-dependent blocks)
-*
-* @param matrix A pointer to the adjacency matrix
-* @param size   The width of the matrix
-* @param stage  The current stage of the algorithm
-* @param base   The base index for a block
-*/
+////////////////////////////////////////////////////////////////////////////////
+//! This kernel computes the second phase (singly-dependent blocks)
+//! @param matrix A pointer to the adjacency matrix
+//! @param size   The width of the matrix
+//! @param stage  The current stage of the algorithm
+//! @param base   The base index for a block
+////////////////////////////////////////////////////////////////////////////////
 __global__ void phase2(float *matrix, int size, int stage, int base) {
 
   int ty = threadIdx.y;
@@ -175,9 +156,6 @@ __global__ void phase2(float *matrix, int size, int stage, int base) {
 
   int by = blockIdx.y;
   int bx = blockIdx.x;
-
-  // computes the index for a thread
-  //if (bx == stage/* && by == stage || stage == 0*/) return; // don't compute the kk block
 
   // primary matrix is the matrix of the pivot (computed in phase 1)
 
@@ -188,68 +166,27 @@ __global__ void phase2(float *matrix, int size, int stage, int base) {
 
   // here we have only 2 rows in the grid, then blockIdx.y can be only 0 or 1
   if (by) { // load for column
-    if (bx < stage) {
-      i = TILE_WIDTH * bx + ty;
-      j = j_prim;
-    }
-    else {
-      i = TILE_WIDTH * (bx + 1) + ty;
-      j = j_prim;
-    }
+    i = (bx < stage) ? TILE_WIDTH * bx + ty : TILE_WIDTH * (bx + 1) + ty;
+    j = j_prim;
   } else {  // load for row
-    if (bx < stage) {
-      i = i_prim;
-      j = TILE_WIDTH * bx + tx;
-    }
-    else {
-      i = i_prim;
-      j = TILE_WIDTH * (bx + 1) + tx;
-    }
+    i = i_prim;
+    j = (bx < stage) ?  TILE_WIDTH * bx + tx : TILE_WIDTH * (bx + 1) + tx;
   }
+
   int index = i * size + j;
   int index_prim = i_prim * size + j_prim;
 
 
-  //printf("base = %d: t[%d][%d],\tb[%d][%d] -- index = %d\n", base, tx, ty, blockIdx.x, blockIdx.y, index);
-
-  //printf("base = %d: t[%d][%d], b[%d][%d] -- index(i,j) = (%d,%d) -- index = %d\n", base, tx, ty, blockIdx.x, blockIdx.y, i,j, index);
-
-  //printf("base = %d: t[%d][%d], b[%d][%d] -- ownMatrix[%d][%d] = matrix[%d]\n", base, ty, tx, blockIdx.y, blockIdx.x, ty, tx, index);
-
-  //printf("base = %d ------ t[%d][%d], b[%d][%d] -- (i,j) = (%d,%d) | (i_prim,j_prim) = (%d,%d)\n", base, ty, tx, by, bx, i, j, i_prim, j_prim);
-
   // loads data from global memory to shared memory
   __shared__ float ownMatrix[TILE_WIDTH][TILE_WIDTH];
   __shared__ float primaryMatrix[TILE_WIDTH][TILE_WIDTH];
+
   ownMatrix[ty][tx] =  (i < size && j < size) ? matrix[index] : INF;
   primaryMatrix[ty][tx] = (i_prim < size && j_prim < size) ? matrix[index_prim] : INF;
   __syncthreads();
 
+
   if (i >= size || j >= size) return;
-
-
-  // if(tx == 0 && ty == 0 && bx == 0 && by == 1) {
-  //   // print matrix
-  //   printf("ownMatrix\n");
-  //   for (int s = 0; s < TILE_WIDTH; s++) {
-  //     for (int w = 0; w < TILE_WIDTH; w++) {
-  //       printf("%.1f ", ownMatrix[s][w]);
-  //     }
-  //     printf("\n");
-  //   }
-  //   printf("\n");
-  //   // print matrix
-  //   printf("primaryMatrix\n");
-  //   for (int s = 0; s < TILE_WIDTH; s++) {
-  //     for (int w = 0; w < TILE_WIDTH; w++) {
-  //       printf("%.1f ", primaryMatrix[s][w]);
-  //     }
-  //     printf("\n");
-  //   }
-  //   printf("\n");
-  // }
-  // __syncthreads();
-
 
 
   // run Floyd Warshall
@@ -273,21 +210,18 @@ __global__ void phase2(float *matrix, int size, int stage, int base) {
     }
   }
 
-  //__syncthreads();
-
   // write back to global memory
   matrix[index] = ownMatrix[ty][tx];
 }
 
 
-/*
- * This kernel computes the third phase (doubly-dependent blocks)
- *
- * @param matrix A pointer to the adjacency matrix
- * @param size   The width of the matrix
- * @param stage  The current stage of the algorithm
- * @param base   The base index for a block
- */
+////////////////////////////////////////////////////////////////////////////////
+ //! This kernel computes the third phase (doubly-dependent blocks)
+ //! @param matrix A pointer to the adjacency matrix
+ //! @param size   The width of the matrix
+ //! @param stage  The current stage of the algorithm
+ //! @param base   The base index for a block
+ ////////////////////////////////////////////////////////////////////////////////
  __global__ void phase3(float *matrix, int size, int stage, int base) {
 
    int tx = threadIdx.x;
@@ -295,9 +229,6 @@ __global__ void phase2(float *matrix, int size, int stage, int base) {
 
    int bx = blockIdx.x;
    int by = blockIdx.y;
-
-   // computes the index for a thread
-   //if (bx == stage || by == stage/* || stage == 0*/) return;
 
    int i, j, j_col, i_row;
 
@@ -327,15 +258,10 @@ __global__ void phase2(float *matrix, int size, int stage, int base) {
    index_col = i * size + j_col;
 
 
-   //printf("base = %d: t[%d][%d],\tb[%d][%d] -- index = %d\n", base, tx, ty, blockIdx.x, blockIdx.y, index);
-
-
-   //printf("base = %d ------ t[%d][%d], b[%d][%d] -- (i,j) = (%d,%d) | (i_row,j_col) = (%d,%d) || index = %d || index_row = %d || index_col = %d\n", base, ty, tx, by, bx, i, j, i_row, j_col, index, index_row, index_col);
-
-
    // loads data from global memory into shared memory
    __shared__ float rowMatrix[TILE_WIDTH][TILE_WIDTH];
    __shared__ float colMatrix[TILE_WIDTH][TILE_WIDTH];
+
    float i_j = (i < size && j < size) ? matrix[index] : INF;
    rowMatrix[ty][tx] = (i_row < size && j < size) ? matrix[index_row] : INF;
    colMatrix[ty][tx] = (j_col < size && i < size) ? matrix[index_col] : INF;
@@ -345,42 +271,14 @@ __global__ void phase2(float *matrix, int size, int stage, int base) {
    if (i >= size || j >= size) return;
 
 
-   // if(tx == 0 && ty == 0 && bx == 0 && by == 0) {
-   //   // print matrix
-   //   printf("rowMatrix\n");
-   //   for (int s = 0; s < TILE_WIDTH; s++) {
-   //     for (int w = 0; w < TILE_WIDTH; w++) {
-   //       printf("%.1f ", rowMatrix[s][w]);
-   //     }
-   //     printf("\n");
-   //   }
-   //   printf("\n");
-   //   // print matrix
-   //   printf("colMatrix\n");
-   //   for (int s = 0; s < TILE_WIDTH; s++) {
-   //     for (int w = 0; w < TILE_WIDTH; w++) {
-   //       printf("%.1f ", colMatrix[s][w]);
-   //     }
-   //     printf("\n");
-   //   }
-   //   printf("\n");
-   // }
-   // __syncthreads();
-
-
-
    // run Floyd Warshall
    float sum;
    for (int k = 0; k < TILE_WIDTH; k++) {
-     //printf("k = %d ----- t[%d][%d], b[%d][%d] --> index[%d][%d] -- min(%.1f, %.1f + %.1f)\n", k, ty, tx, by, bx, i, j, i_j, colMatrix[ty][k], rowMatrix[k][tx]);
-     //printf("colMatrix[%d][%d] = %.1f\n", ty,k,colMatrix[ty][k]);
-
      sum = colMatrix[ty][k] + rowMatrix[k][tx];
      if (sum < i_j) {
        i_j = sum;
      }
-    __syncthreads();
-
+    //__syncthreads();
    }
 
    // write back to global memory

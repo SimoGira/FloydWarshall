@@ -8,115 +8,6 @@
 // ---------------------------
 
 
-
-
-
-
-
-
-
-#define BLOCK_DIM 32
-#include <algorithm>
-void floydWarshall_seq(float *matrix, int nV) {
-    int numBlock = (nV-1)/BLOCK_DIM + 1;
-    float *temp = new float[nV * nV];
-    for(int bId=0; bId < numBlock; bId++) {
-        //fase 1
-        for(int k=bId * BLOCK_DIM;k<(bId+1)*BLOCK_DIM;k++) {
-            //memcpy(temp, matrix, nV * nV * sizeof(float));
-            for(int i=bId*BLOCK_DIM;i<(bId+1)*BLOCK_DIM;i++) {
-                for(int j=bId*BLOCK_DIM;j<(bId+1)*BLOCK_DIM;j++) {
-                    if(i < nV && j < nV && k < nV) {
-                        matrix[i*nV + j] = std::min(matrix[i*nV + j], matrix[i*nV + k] + matrix[k*nV + j]);
-                    }
-                }
-            }
-            //memcpy(matrix, temp, nV * nV * sizeof(float));
-        }
-
-        // fase 2
-        // blocchi i-allineati
-        for(int ib=0;ib<numBlock;ib++) {
-            //per ogni blocco
-            if(ib != bId) {
-                for(int k=bId * BLOCK_DIM;k<(bId+1)*BLOCK_DIM;k++) {
-                    //memcpy(temp, matrix, nV * nV * sizeof(float));
-                    for(int i=bId*BLOCK_DIM;i<(bId+1)*BLOCK_DIM;i++) {
-                        for(int j=ib*BLOCK_DIM;j<(ib+1)*BLOCK_DIM;j++) {
-                            if(i < nV && j < nV && k < nV) {
-                                matrix[i*nV + j] = std::min(matrix[i*nV + j], matrix[i*nV + k] + matrix[k*nV + j]);
-                            }
-                        }
-                    }
-                    //memcpy(matrix, temp, nV * nV * sizeof(float));
-                }
-            }
-        }
-        // //blocchi j-allineati
-        for(int jb=0;jb<numBlock;jb++) {
-            //per ogni blocco
-            if(jb != bId) {
-                for(int k=bId * BLOCK_DIM;k<(bId+1)*BLOCK_DIM;k++) {
-                    //memcpy(temp, matrix, nV * nV * sizeof(float));
-                    for(int i=jb*BLOCK_DIM;i<(jb+1)*BLOCK_DIM;i++) {
-                        for(int j=bId*BLOCK_DIM;j<(bId+1)*BLOCK_DIM;j++) {
-                            if(i < nV && j < nV && k < nV) {
-                                matrix[i*nV + j] = std::min(matrix[i*nV + j], matrix[i*nV + k] + matrix[k*nV + j]);
-                            }
-                        }
-                    }
-                    //memcpy(matrix, temp, nV * nV * sizeof(float));
-                }
-            }
-        }
-
-        //fase 3
-        for(int ib=0;ib<numBlock;ib++) {
-            for(int jb=0;jb<numBlock;jb++) {
-                //per ogni blocco
-                if(ib != bId && jb != bId) {
-                    for(int k=bId * BLOCK_DIM;k<(bId+1)*BLOCK_DIM;k++) {
-                        //memcpy(temp, matrix, nV * nV * sizeof(float));
-                        for(int i=jb*BLOCK_DIM;i<(jb+1)*BLOCK_DIM;i++) {
-                            for(int j=ib*BLOCK_DIM;j<(ib+1)*BLOCK_DIM;j++) {
-                                if(i < nV && j < nV && k < nV) {
-                                    matrix[i*nV + j] = std::min(matrix[i*nV + j], matrix[i*nV + k] + matrix[k*nV + j]);
-                                }
-                            }
-                        }
-                        //memcpy(matrix, temp, nV * nV * sizeof(float));
-                    }
-                }
-            }
-        }
-        //break;
-    }
-    delete[] temp;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 using matrix_t = float;
 
 void printMatrix(float *A, int height, int width) {
@@ -188,7 +79,8 @@ int main(int argc, char* argv[]) {
     cudaEventSynchronize(startTimeCuda);
 
     floyd_warshall::floyd_warshall(matrix, graph.nV());
-    //floydWarshall_seq(matrix_seq_blk, graph.nV());
+    //floyd_warshall::floyd_warshall_opt(matrix, graph.nV());
+    //floyd_warshall::floydWarshall_blk(matrix_seq_blk, graph.nV());
 
     cudaEventRecord(stopTimeCuda, 0);
     cudaEventSynchronize(stopTimeCuda);

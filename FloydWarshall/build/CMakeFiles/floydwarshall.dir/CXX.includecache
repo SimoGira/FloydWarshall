@@ -277,8 +277,6 @@ limits
 -
 cuda_profiler_api.h
 -
-algorithm
--
 
 /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/src/FloydWarshall.cpp
 FloydWarshall.hpp
@@ -286,6 +284,8 @@ FloydWarshall.hpp
 iostream
 -
 limits
+-
+algorithm
 -
 
 /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/src/Graph/GraphBase.cpp

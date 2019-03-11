@@ -30,7 +30,6 @@ float parallel_floyd_warshall(T* h_N, int n, int kernel_number) {
 // For blocked algorithm
 /******************************************************************************/
   int stages = ceil(n / (float)TILE_WIDTH);
-  std::cout << "stages: " << stages << '\n';
 
   // dimensions
   dim3 blockSize(TILE_WIDTH, TILE_WIDTH, 1);
@@ -77,30 +76,14 @@ float parallel_floyd_warshall(T* h_N, int n, int kernel_number) {
       // printf("phase3Grid:   {%d,\t%d,\t%d} blocks. -- Blocks: {%d,\t%d,\t%d} threads.\n", \
       //         phase3Grid.x, phase3Grid.y, phase3Grid.z, blockSize.x, blockSize.y, blockSize.z);
 
-
       // run kernel
       for(int k = 0; k < stages; k++) {
     		int base = TILE_WIDTH * k;
-
-        //printf("stage    = %d\n", k);
-        //printf("base = %d\n", base);
         phase1<<<phase1Grid, blockSize>>>(d_N, n, base);
-
-
         phase2<<<phase2Grid, blockSize>>>(d_N, n, k, base);
-
-        // if (k == 1) {
-        //   break;
-        // }
-
         phase3<<<phase3Grid, blockSize>>>(d_N, n, k, base);
-
-        //break;
       }
-
-
-
-
+      
       break;
     default:
       break;
