@@ -21,9 +21,6 @@ float parallel_floyd_warshall(T* h_N, int n, int kernel_number) {
   // copy N to device memory
   CHECK_ERROR(cudaMemcpy(d_N, h_N, size, cudaMemcpyHostToDevice));
 
-  // copy infinty constant to constant memory
-  //CHECK_ERROR(cudaMemcpyToSymbol(dest, source, size));
-
   dim3 dimGrid;
   dim3 dimBlock;
 
@@ -35,7 +32,8 @@ float parallel_floyd_warshall(T* h_N, int n, int kernel_number) {
   dim3 blockSize(TILE_WIDTH, TILE_WIDTH, 1);
   dim3 phase1Grid(1, 1, 1);
   dim3 phase2Grid(stages-1, 2, 1);
-  dim3 phase3Grid(stages-1, stages-1, 1);
+  dim3 phase3Grid(stages, stages, 1);
+  //dim3 phase3Grid(stages-1, stages-1, 1);
 /******************************************************************************/
 
   // printf("Grid:   {%d,\t%d,\t%d} blocks.\nBlocks: {%d,\t%d,\t%d} threads.\n", \
@@ -69,21 +67,13 @@ float parallel_floyd_warshall(T* h_N, int n, int kernel_number) {
       break;
     case 4:
 
-      // printf("phase1Grid:   {%d,\t%d,\t%d} blocks. -- Blocks: {%d,\t%d,\t%d} threads.\n", \
-      //         phase1Grid.x, phase1Grid.y, phase1Grid.z, blockSize.x, blockSize.y, blockSize.z);
-      // printf("phase2Grid:   {%d,\t%d,\t%d} blocks. -- Blocks: {%d,\t%d,\t%d} threads.\n", \
-      //         phase2Grid.x, phase2Grid.y, phase2Grid.z, blockSize.x, blockSize.y, blockSize.z);
-      // printf("phase3Grid:   {%d,\t%d,\t%d} blocks. -- Blocks: {%d,\t%d,\t%d} threads.\n", \
-      //         phase3Grid.x, phase3Grid.y, phase3Grid.z, blockSize.x, blockSize.y, blockSize.z);
-
-      // run kernel
       for(int k = 0; k < stages; k++) {
     		int base = TILE_WIDTH * k;
         phase1<<<phase1Grid, blockSize>>>(d_N, n, base);
         phase2<<<phase2Grid, blockSize>>>(d_N, n, k, base);
         phase3<<<phase3Grid, blockSize>>>(d_N, n, k, base);
       }
-      
+
       break;
     default:
       break;

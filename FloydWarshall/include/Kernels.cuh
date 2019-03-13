@@ -77,8 +77,8 @@ __global__ void sm_floyd_warshall_kernel(float *N, int n, int k) {
   if (i >= n || j >= n || k >= n) return;
 
   // read in dependent values
-  float i_j_value = N[i * n + j];
-  float k_j_value = N[k * n + j];
+  const float i_j_value = N[i * n + j];
+  const float k_j_value = N[k * n + j];
 
   __shared__ float i_k_value;
 
@@ -216,69 +216,71 @@ __global__ void phase2(float *matrix, int size, int stage, int base) {
 
 
 ////////////////////////////////////////////////////////////////////////////////
- //! This kernel computes the third phase (doubly-dependent blocks)
- //! @param matrix A pointer to the adjacency matrix
- //! @param size   The width of the matrix
- //! @param stage  The current stage of the algorithm
- //! @param base   The base index for a block
- ////////////////////////////////////////////////////////////////////////////////
+//! This kernel computes the third phase (doubly-dependent blocks)
+//! @param matrix A pointer to the adjacency matrix
+//! @param size   The width of the matrix
+//! @param stage  The current stage of the algorithm
+//! @param base   The base index for a block
+////////////////////////////////////////////////////////////////////////////////
  __global__ void phase3(float *matrix, int size, int stage, int base) {
 
-   int tx = threadIdx.x;
-   int ty = threadIdx.y;
+   int tx = threadIdx.x,  bx = blockIdx.x;
+   int ty = threadIdx.y,  by = blockIdx.y;
 
-   int bx = blockIdx.x;
-   int by = blockIdx.y;
+   if (bx == stage || by == stage) return;
 
    int i, j, j_col, i_row;
 
-   if (bx < stage && by < stage) {  // load upper left
-     i = TILE_WIDTH * by + ty;
-     j = TILE_WIDTH * bx + tx;
-   }
-   else if (by < stage) { // load upper right
-     i = TILE_WIDTH * by + ty;
-     j = TILE_WIDTH * (bx + 1) + tx;
-   }
-   else if (bx < stage) { // load bottom left
-     i = TILE_WIDTH * (by + 1) + ty;
-     j = TILE_WIDTH * bx + tx;
-   }
-   else { // load bottom right
-     i = TILE_WIDTH * (by + 1) + ty;
-     j = TILE_WIDTH * (bx + 1) + tx;
-   }
+   i = TILE_WIDTH * by + ty;
+   j = TILE_WIDTH * bx + tx;
+
+   // NB: TO USE THIS VERSION UNCOMMENT THE FOLLOW CODE AND THE PHASE3 KERNEL IN FloydWarshall.cu
+   // if (bx < stage && by < stage) {  // load upper left
+   //   i = TILE_WIDTH * by + ty;
+   //   j = TILE_WIDTH * bx + tx;
+   // }
+   // else if (by < stage) { // load upper right
+   //   i = TILE_WIDTH * by + ty;
+   //   j = TILE_WIDTH * (bx + 1) + tx;
+   // }
+   // else if (bx < stage) { // load bottom left
+   //   i = TILE_WIDTH * (by + 1) + ty;
+   //   j = TILE_WIDTH * bx + tx;
+   // }
+   // else { // load bottom right
+   //   i = TILE_WIDTH * (by + 1) + ty;
+   //   j = TILE_WIDTH * (bx + 1) + tx;
+   // }
 
    i_row = base + ty;
    j_col = base + tx;
 
-   int index, index_row, index_col;
-   index = i * size + j;
-   index_row = i_row * size + j;
-   index_col = i * size + j_col;
+   int index_row = i_row * size + j;
+   int index_col = i * size + j_col;
 
 
    // loads data from global memory into shared memory
    __shared__ float rowMatrix[TILE_WIDTH][TILE_WIDTH];
    __shared__ float colMatrix[TILE_WIDTH][TILE_WIDTH];
 
-   float i_j = (i < size && j < size) ? matrix[index] : INF;
    rowMatrix[ty][tx] = (i_row < size && j < size) ? matrix[index_row] : INF;
    colMatrix[ty][tx] = (j_col < size && i < size) ? matrix[index_col] : INF;
-   __syncthreads();
-
 
    if (i >= size || j >= size) return;
+
+   __syncthreads();
+   int index = i * size + j;
+   float i_j = matrix[index];
 
 
    // run Floyd Warshall
    float sum;
+   #pragma unroll
    for (int k = 0; k < TILE_WIDTH; k++) {
      sum = colMatrix[ty][k] + rowMatrix[k][tx];
      if (sum < i_j) {
        i_j = sum;
      }
-    //__syncthreads();
    }
 
    // write back to global memory

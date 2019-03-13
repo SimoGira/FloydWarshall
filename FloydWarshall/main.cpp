@@ -3,6 +3,8 @@
 #include "Graph/GraphWeight.hpp"
 #include <tuple>
 #include <limits>
+#include <fstream>
+#include <iostream>
 // ---------------------------
 #include <cuda_profiler_api.h>
 // ---------------------------
@@ -33,6 +35,12 @@ void printMatrix_host(matrix_t **A, int height, int width) {
 int main(int argc, char* argv[]) {
     if (argc != 3)
         return EXIT_FAILURE;
+
+    ofstream cpu_times, omp_times, cuda_times;
+    cpu_times.open ("cpu_times.txt" | ios::app);
+    omp_times.open ("omp_times.txt" | ios::app);
+    cuda_times.open ("cuda_times.txt" | ios::app);
+
 
     graph::GraphWeight<int, int, matrix_t> graph(graph::structure_prop::COO);
     graph.read(argv[1]);
@@ -66,7 +74,7 @@ int main(int argc, char* argv[]) {
       }
     }
 
-    float msTime, msTime_seq;
+    float msTime_cuda, msTime_cuda_omp, msTime_cuda_seq;
     cudaEvent_t startTimeCuda, stopTimeCuda;
     cudaEventCreate(&startTimeCuda);
     cudaEventCreate(&stopTimeCuda);
@@ -84,17 +92,18 @@ int main(int argc, char* argv[]) {
 
     cudaEventRecord(stopTimeCuda, 0);
     cudaEventSynchronize(stopTimeCuda);
-    cudaEventElapsedTime(&msTime_seq, startTimeCuda, stopTimeCuda);
-    printf("HostTime: %f\n", msTime_seq);
+    cudaEventElapsedTime(&msTime_cuda_seq, startTimeCuda, stopTimeCuda);
+    printf("HostTime: %f\n", msTime_cuda_seq);
+    cpu_times << msTime_cuda_seq << "\n";
 
 
     //--------------------------------------------------------------------------
     // start parallel Floyd Warshall algorithm
     //--------------------------------------------------------------------------
     // cudaProfilerStart();
-    msTime = parallel_floyd_warshall(matrix_h, graph.nV(), atoi(argv[2]));
+    msTime_cuda = parallel_floyd_warshall(matrix_h, graph.nV(), atoi(argv[2]));
     // cudaProfilerStop();
-
+    cuda_times << msTime_cuda << "\n";
 
     // printf("Result from HOST:\n");
     // printMatrix_host(matrix, graph.nV(), graph.nV());
@@ -122,7 +131,7 @@ int main(int argc, char* argv[]) {
     }
 
     // SPEED UP
-    printf("Speedup: %f\n", msTime_seq / msTime);
+    printf("Speedup CPU vs GPU: %f\n", msTime_cuda_seq / msTime_cuda);
 
     // cleanup memory
     for (int i = 0; i < graph.nV(); i++)
@@ -131,5 +140,9 @@ int main(int argc, char* argv[]) {
 
 
     free(matrix_h);
+
+    cpu_times.close();
+    omp_times.close();
+    cuda_times.close();
 
 }
