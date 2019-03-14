@@ -317,7 +317,7 @@ CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o: ../
 
 CMakeFiles/floydwarshall.dir/floydwarshall_intermediate_link.o: CMakeFiles/floydwarshall.dir/src/floydwarshall_generated_FloydWarshall.cu.o
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building NVCC intermediate link file CMakeFiles/floydwarshall.dir/floydwarshall_intermediate_link.o"
-	/usr/local/cuda-10.0/bin/nvcc -w -m64 -dlink /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/floydwarshall.dir/src/./floydwarshall_generated_FloydWarshall.cu.o -o /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/floydwarshall.dir/./floydwarshall_intermediate_link.o
+	/usr/local/cuda-10.0/bin/nvcc -O3 -gencode arch=compute_61,code=sm_61 -m64 -dlink /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/floydwarshall.dir/src/./floydwarshall_generated_FloydWarshall.cu.o -o /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/floydwarshall.dir/./floydwarshall_intermediate_link.o
 
 CMakeFiles/floydwarshall.dir/main.cpp.o: CMakeFiles/floydwarshall.dir/flags.make
 CMakeFiles/floydwarshall.dir/main.cpp.o: ../main.cpp

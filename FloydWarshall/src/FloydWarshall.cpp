@@ -1,8 +1,8 @@
 #include "FloydWarshall.hpp"
 #include <iostream>
 #include <limits>
-
 #include <algorithm>
+#include <omp.h>
 #define BLOCK_DIM_SEQ 32
 
 namespace floyd_warshall {
@@ -124,6 +124,32 @@ namespace floyd_warshall {
       }
   }
   template void floydWarshall_blk<float>(float*, int);
+
+
+  //////////////////////////////////////////////////////////////////////////////
+  // OMP
+  //////////////////////////////////////////////////////////////////////////////
+  template<typename T>
+  void floyd_warshall_omp(T** matrix, int num_vertices) {
+      const auto INF = std::numeric_limits<T>::infinity();
+      int i,j,k;
+
+      #pragma omp parallel shared(num_vertices, matrix) private(i,j, k) default(none)
+      for (k = 0; k < num_vertices; k++) {
+
+          #pragma omp for schedule(dynamic)
+          for (i = 0; i < num_vertices; i++) {
+              if (matrix[i][k] != INF) {
+                for (j = 0; j < num_vertices; j++) {
+                    if (matrix[k][j] != INF && matrix[i][k] + matrix[k][j] < matrix[i][j]) {
+                        matrix[i][j] = matrix[i][k] + matrix[k][j];
+                    }
+                }
+              }
+          }
+      }
+  }
+  template void floyd_warshall_omp<float>(float**, int);
 
 
 

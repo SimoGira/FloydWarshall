@@ -1,22 +1,22 @@
 Determining if the pthread_create exist failed with the following output:
 Change Dir: /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_7ecf9/fast"
-/usr/bin/make -f CMakeFiles/cmTC_7ecf9.dir/build.make CMakeFiles/cmTC_7ecf9.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_a1136/fast"
+/usr/bin/make -f CMakeFiles/cmTC_a1136.dir/build.make CMakeFiles/cmTC_a1136.dir/build
 make[1]: ingresso nella directory "/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp"
-Building CXX object CMakeFiles/cmTC_7ecf9.dir/CheckSymbolExists.cxx.o
-/usr/bin/c++     -o CMakeFiles/cmTC_7ecf9.dir/CheckSymbolExists.cxx.o -c /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx
-Linking CXX executable cmTC_7ecf9
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7ecf9.dir/link.txt --verbose=1
-/usr/bin/c++       CMakeFiles/cmTC_7ecf9.dir/CheckSymbolExists.cxx.o  -o cmTC_7ecf9 
-CMakeFiles/cmTC_7ecf9.dir/CheckSymbolExists.cxx.o: nella funzione "main":
+Building CXX object CMakeFiles/cmTC_a1136.dir/CheckSymbolExists.cxx.o
+/usr/bin/c++     -o CMakeFiles/cmTC_a1136.dir/CheckSymbolExists.cxx.o -c /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx
+Linking CXX executable cmTC_a1136
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a1136.dir/link.txt --verbose=1
+/usr/bin/c++       CMakeFiles/cmTC_a1136.dir/CheckSymbolExists.cxx.o  -o cmTC_a1136 
+CMakeFiles/cmTC_a1136.dir/CheckSymbolExists.cxx.o: nella funzione "main":
 CheckSymbolExists.cxx:(.text+0x1b): riferimento non definito a "pthread_create"
 collect2: error: ld returned 1 exit status
-CMakeFiles/cmTC_7ecf9.dir/build.make:97: recipe for target 'cmTC_7ecf9' failed
-make[1]: *** [cmTC_7ecf9] Error 1
+CMakeFiles/cmTC_a1136.dir/build.make:97: recipe for target 'cmTC_a1136' failed
+make[1]: *** [cmTC_a1136] Error 1
 make[1]: uscita dalla directory "/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp"
-Makefile:126: recipe for target 'cmTC_7ecf9/fast' failed
-make: *** [cmTC_7ecf9/fast] Error 2
+Makefile:126: recipe for target 'cmTC_a1136/fast' failed
+make: *** [cmTC_a1136/fast] Error 2
 
 File /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:
 /* */
@@ -36,20 +36,20 @@ int main(int argc, char** argv)
 Determining if the function pthread_create exists in the pthreads failed with the following output:
 Change Dir: /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_2294a/fast"
-/usr/bin/make -f CMakeFiles/cmTC_2294a.dir/build.make CMakeFiles/cmTC_2294a.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_463b7/fast"
+/usr/bin/make -f CMakeFiles/cmTC_463b7.dir/build.make CMakeFiles/cmTC_463b7.dir/build
 make[1]: ingresso nella directory "/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp"
-Building CXX object CMakeFiles/cmTC_2294a.dir/CheckFunctionExists.cxx.o
-/usr/bin/c++    -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_2294a.dir/CheckFunctionExists.cxx.o -c /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CheckLibraryExists/CheckFunctionExists.cxx
-Linking CXX executable cmTC_2294a
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2294a.dir/link.txt --verbose=1
-/usr/bin/c++   -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_2294a.dir/CheckFunctionExists.cxx.o  -o cmTC_2294a -lpthreads 
+Building CXX object CMakeFiles/cmTC_463b7.dir/CheckFunctionExists.cxx.o
+/usr/bin/c++    -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_463b7.dir/CheckFunctionExists.cxx.o -c /home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CheckLibraryExists/CheckFunctionExists.cxx
+Linking CXX executable cmTC_463b7
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_463b7.dir/link.txt --verbose=1
+/usr/bin/c++   -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_463b7.dir/CheckFunctionExists.cxx.o  -o cmTC_463b7 -lpthreads 
 /usr/bin/ld: impossibile trovare -lpthreads
 collect2: error: ld returned 1 exit status
-CMakeFiles/cmTC_2294a.dir/build.make:97: recipe for target 'cmTC_2294a' failed
-make[1]: *** [cmTC_2294a] Error 1
+CMakeFiles/cmTC_463b7.dir/build.make:97: recipe for target 'cmTC_463b7' failed
+make[1]: *** [cmTC_463b7] Error 1
 make[1]: uscita dalla directory "/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/CMakeTmp"
-Makefile:126: recipe for target 'cmTC_2294a/fast' failed
-make: *** [cmTC_2294a/fast] Error 2
+Makefile:126: recipe for target 'cmTC_463b7/fast' failed
+make: *** [cmTC_463b7/fast] Error 2
 
 

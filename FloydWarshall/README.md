@@ -1,5 +1,7 @@
 # How to Compile and Execute #
 
+Make sure to set the right gpu architecture for in CMakeLists.txt
+
 ```cpp
 cd build
 cmake ..
@@ -7,8 +9,10 @@ make
 ./floydwarshall <file.mtx> <kernel number>
 ```
 
-Possibile kernel numbers:
+Possible kernel numbers:
 1) Naive
+2) Coalesced
+1) Shared
 2) Blocked
 
 # Dataset #

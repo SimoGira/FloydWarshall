@@ -4,7 +4,7 @@
 #include <limits>
 
 #define BLOCK_SIZE 32
-#define TILE_WIDTH 32
+#define TILE_WIDTH 16
 
 __constant__ auto INF = std::numeric_limits<float>::infinity();   // qui andrebbe sistemato in modo che al posto di float accetti T
 
@@ -206,7 +206,7 @@ __global__ void phase2(float *matrix, int size, int stage, int base) {
       if (sum < ownMatrix[ty][tx]) {
           ownMatrix[ty][tx] = sum;
       }
-      __syncthreads();
+      //__syncthreads();
     }
   }
 

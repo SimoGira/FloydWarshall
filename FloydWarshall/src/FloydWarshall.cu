@@ -1,5 +1,4 @@
 
-#pragma once
 #include "FloydWarshall.cuh"
 #include "Kernels.cuh"
 

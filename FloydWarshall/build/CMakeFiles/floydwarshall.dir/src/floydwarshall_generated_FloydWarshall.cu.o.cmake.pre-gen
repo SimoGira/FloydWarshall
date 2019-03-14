@@ -72,7 +72,7 @@ set(generated_file_internal "/home/ubuntu/Scrivania/AdvancedComputerArchitecture
 set(generated_cubin_file_internal "/home/ubuntu/Scrivania/AdvancedComputerArchitecture/FloydWarshall/build/CMakeFiles/floydwarshall.dir/src/./floydwarshall_generated_FloydWarshall.cu.o.cubin.txt") # path
 
 set(CUDA_NVCC_EXECUTABLE "/usr/local/cuda-10.0/bin/nvcc") # path
-set(CUDA_NVCC_FLAGS -w ;; ) # list
+set(CUDA_NVCC_FLAGS -O3;-gencode;arch=compute_61,code=sm_61 ;; ) # list
 # Build specific configuration flags
 set(CUDA_NVCC_FLAGS_RELEASE  ; )
 set(CUDA_NVCC_FLAGS_DEBUG  ; )
@@ -104,7 +104,7 @@ endif()
 
 # This is the list of host compilation flags.  It C or CXX should already have
 # been chosen by FindCUDA.cmake.
-set(CMAKE_HOST_FLAGS  )
+set(CMAKE_HOST_FLAGS  -fopenmp )
 set(CMAKE_HOST_FLAGS_RELEASE -O3 -DNDEBUG)
 set(CMAKE_HOST_FLAGS_DEBUG -g)
 set(CMAKE_HOST_FLAGS_MINSIZEREL -Os -DNDEBUG)
