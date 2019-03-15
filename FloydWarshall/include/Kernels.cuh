@@ -3,8 +3,12 @@
 #include <iostream>
 #include <limits>
 
-#define BLOCK_SIZE 32
-#define TILE_WIDTH 16
+#define BLOCK_NAIVE 16    // for: naive
+#define SEGMENT_SIZE 3    // for: coalesced
+#define BLOCK_COA 64      // for: coalesced
+#define BLOCK_SM 128      // for: shared memory
+#define TILE_WIDTH 16     // for: blocked
+
 
 __constant__ auto INF = std::numeric_limits<float>::infinity();   // qui andrebbe sistemato in modo che al posto di float accetti T
 
@@ -15,15 +19,16 @@ __constant__ auto INF = std::numeric_limits<float>::infinity();   // qui andrebb
 //! @param k  index of the intermediate vertex
 ////////////////////////////////////////////////////////////////////////////////
 __global__ void naive_floyd_warshall_kernel(float *N, int n, int k) {
-    const unsigned int i = blockIdx.y;
-    const unsigned int j = blockIdx.x;
+    int i = threadIdx.x + blockIdx.x * blockDim.x;
+    int j = threadIdx.y + blockIdx.y * blockDim.y;
+    // tip: switch i with j to improve
 
     // check for a valid range
-    if (i >= n || j >= n || k >= n) return;
+    if (i >= n || j >= n) return;
 
-    const float i_k_value = N[i * n + k];
-    const float k_j_value = N[k * n + j];
-    const float i_j_value = N[i * n + j];
+    float i_k_value = N[i * n + k];
+    float k_j_value = N[k * n + j];
+    float i_j_value = N[i * n + j];
 
     // calculate shortest path
     if (i_k_value != INF && k_j_value != INF) {
@@ -42,23 +47,32 @@ __global__ void naive_floyd_warshall_kernel(float *N, int n, int k) {
 ////////////////////////////////////////////////////////////////////////////////
 __global__ void coa_floyd_warshall_kernel(float *N, int n, int k) {
 
-    const unsigned int i = blockIdx.y * blockDim.y + threadIdx.y;
-    const unsigned int j = blockIdx.x * blockDim.x + threadIdx.x;
+  int idx = blockIdx.x * blockDim.x + threadIdx.x;
+  const int size = n*n;
 
-    // check for a valid range
-    if (i >= n || j >= n || k >= n) return;
+  if (idx >= size) return;
 
-    const float i_k_value = N[i * n + k];
-    const float k_j_value = N[k * n + j];
-    const float i_j_value = N[i * n + j];
+  int i,j;
+  float i_k_value, k_j_value, sum;
+  const int seg_id = SEGMENT_SIZE*idx;
+
+  #pragma unroll
+  for (int offset = 0; offset < SEGMENT_SIZE && offset + seg_id < size; offset++) {
+
+    i = (seg_id + offset) / n;
+    j = seg_id + offset - i * n;
+
+    i_k_value = N[i * n + k];
+    k_j_value = N[k * n + j];
 
     // calculate shortest path
     if (i_k_value != INF && k_j_value != INF) {
-        float sum = i_k_value + k_j_value;
-        if (sum < i_j_value) {
-            N[i * n + j] = sum;
-        }
+      sum = i_k_value + k_j_value;
+      if (sum < N[i * n + j]) {
+        N[i * n + j] = sum;
+      }
     }
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -70,15 +84,15 @@ __global__ void coa_floyd_warshall_kernel(float *N, int n, int k) {
 ////////////////////////////////////////////////////////////////////////////////
 __global__ void sm_floyd_warshall_kernel(float *N, int n, int k) {
 
-  const unsigned int i = blockIdx.y * blockDim.y + threadIdx.y;
-  const unsigned int j = blockIdx.x * blockDim.x + threadIdx.x;
+  int i = blockIdx.y * blockDim.y + threadIdx.y;
+  int j = blockIdx.x * blockDim.x + threadIdx.x;
 
   // check for a valid range
-  if (i >= n || j >= n || k >= n) return;
+  if (i >= n || j >= n) return;
 
   // read in dependent values
-  const float i_j_value = N[i * n + j];
-  const float k_j_value = N[k * n + j];
+  float i_j_value = N[i * n + j];
+  float k_j_value = N[k * n + j];
 
   __shared__ float i_k_value;
 
@@ -86,8 +100,6 @@ __global__ void sm_floyd_warshall_kernel(float *N, int n, int k) {
     i_k_value = N[i * n + k];
   }
   __syncthreads();
-
-  //printf("k = %d: t[%d][%d],\tb[%d][%d] -- i_k_value = %.1f\n",k, threadIdx.x, threadIdx.y, blockIdx.x, blockIdx.y, i_k_value);
 
   // calculate shortest path
   if(i_k_value != INF && k_j_value != INF) {
