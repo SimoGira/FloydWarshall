@@ -20,4 +20,4 @@
 
 
 template<typename T>
-float parallel_floyd_warshall(T* h_N, int n, int kernel_number, int threads_per_block);
+float parallel_floyd_warshall(T* h_N, int n, int kernel_number);

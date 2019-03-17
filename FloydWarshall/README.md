@@ -1,6 +1,6 @@
 # How to Compile and Execute #
 
-Make sure to set the right gpu architecture for in CMakeLists.txt
+###Make sure to set the right gpu architecture for in CMakeLists.txt
 
 ```cpp
 cd build

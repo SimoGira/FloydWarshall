@@ -6,7 +6,7 @@
 // PERFORM PARALLEL FLOYD-WARSHALL
 // ----------------------------------------------------------------------------
 template <typename T>
-float parallel_floyd_warshall(T* h_N, int n, int kernel_number, int threads_per_block) {
+float parallel_floyd_warshall(T* h_N, int n, int kernel_number) {
   float *d_N;
   int size = n * n * sizeof(float);
 
@@ -104,4 +104,4 @@ float parallel_floyd_warshall(T* h_N, int n, int kernel_number, int threads_per_
   return msTime;
 }
 
-template float parallel_floyd_warshall<float>(float*, int, int, int);
+template float parallel_floyd_warshall<float>(float*, int, int);

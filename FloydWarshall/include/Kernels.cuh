@@ -3,11 +3,14 @@
 #include <iostream>
 #include <limits>
 
+////////////////////////////////////////////////////////////////////////////////
+// optimal kernels configurations
+////////////////////////////////////////////////////////////////////////////////
 #define BLOCK_NAIVE 16    // for: naive
 #define SEGMENT_SIZE 3    // for: coalesced
 #define BLOCK_COA 64      // for: coalesced
 #define BLOCK_SM 128      // for: shared memory
-#define TILE_WIDTH 16     // for: blocked
+#define TILE_WIDTH 32     // for: blocked
 
 
 __constant__ auto INF = std::numeric_limits<float>::infinity();   // qui andrebbe sistemato in modo che al posto di float accetti T
