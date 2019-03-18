@@ -1,0 +1,75 @@
+Detected 1 CUDA Capable device(s)
+
+Device Number 0: "GeForce GTX 980"								 
+  CUDA Driver Version / Runtime Version          10.0 / 10.0
+  CUDA Capability Major/Minor version number:    5.2
+  Memory Clock Rate:	 						 3505000 KHz
+  Memory Bus Width:		 						 256-bit
+  Peak Memory Bandwidth: 				 		 224.320000 (GB/s)
+  Max thread per block: 						 1024
+
+sgirardi@hpcb-srvcuda04:~/AdvancedComputerArchitecture/FloydWarshall/build$ ./floydwarshall ../data/bcsstk08.mtx 1
+
+Graph File: bcsstk08           Size: 0 MB        format: (Market)
+
+@File    V: 1,074         E: 14,034        Structure: Undirected   avg. deg: 13.0
+   100%
+Double self-loops removed.  E: 12,960
+COO to CSR...	Complete!
+
+HostTime CPU: 2680.235107
+HostTime OMP: 363.137299
+DeviceTime: 99.835197
+
+Speedup CPU vs OMP: 7.380776
+Speedup OMP vs GPU: 3.637367
+Speedup CPU vs GPU: 26.846596
+sgirardi@hpcb-srvcuda04:~/AdvancedComputerArchitecture/FloydWarshall/build$ ./floydwarshall ../data/bcsstk08.mtx 2
+
+Graph File: bcsstk08           Size: 0 MB        format: (Market)
+
+@File    V: 1,074         E: 14,034        Structure: Undirected   avg. deg: 13.0
+   100%
+Double self-loops removed.  E: 12,960
+COO to CSR...	Complete!
+
+HostTime CPU: 2677.313477
+HostTime OMP: 362.897888
+DeviceTime: 98.543709
+
+Speedup CPU vs OMP: 7.377594
+Speedup OMP vs GPU: 3.682608
+Speedup CPU vs GPU: 27.168791
+sgirardi@hpcb-srvcuda04:~/AdvancedComputerArchitecture/FloydWarshall/build$ ./floydwarshall ../data/bcsstk08.mtx 3
+
+Graph File: bcsstk08           Size: 0 MB        format: (Market)
+
+@File    V: 1,074         E: 14,034        Structure: Undirected   avg. deg: 13.0
+   100%
+Double self-loops removed.  E: 12,960
+COO to CSR...	Complete!
+
+HostTime CPU: 2678.965576
+HostTime OMP: 362.696228
+DeviceTime: 45.116898
+
+Speedup CPU vs OMP: 7.386251
+Speedup OMP vs GPU: 8.039033
+Speedup CPU vs GPU: 59.378319
+sgirardi@hpcb-srvcuda04:~/AdvancedComputerArchitecture/FloydWarshall/build$ ./floydwarshall ../data/bcsstk08.mtx 4
+
+Graph File: bcsstk08           Size: 0 MB        format: (Market)
+
+@File    V: 1,074         E: 14,034        Structure: Undirected   avg. deg: 13.0
+   100%
+Double self-loops removed.  E: 12,960
+COO to CSR...	Complete!
+
+HostTime CPU: 2678.417236
+HostTime OMP: 363.390198
+DeviceTime: 6.709216
+
+Speedup CPU vs OMP: 7.370637
+Speedup OMP vs GPU: 54.162838
+Speedup CPU vs GPU: 399.214630
+sgirardi@hpcb-srvcuda04:~/AdvancedComputerArchitecture/FloydWarshall/build$
