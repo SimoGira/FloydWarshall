@@ -1,4 +1,8 @@
-# How to Compile and Execute #
+# CUDA Parallel Implementation of Floyd Warshall
+This is a Master's degree project related to the Advanced Computer Achitecture course at UNIVR (University of Verona). 
+
+## How to Build and Execute
+You need CUDA 10.0 installed on your machine otherwise you have to modify the CMakeLists setting up the approrpiate CUDA version.
 
 > Note: Make sure to set the right gpu architecture for your device in CMakeLists.txt
 
@@ -16,7 +20,7 @@ Possible kernel numbers:
 1) Shared
 2) Blocked
 
-# Dataset #
+## Dataset
 
 https://sparse.tamu.edu/HB/nos4
 https://sparse.tamu.edu/HB/bcsstk08
