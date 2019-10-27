@@ -21,7 +21,7 @@ Possible kernel numbers:
 1) Shared
 2) Blocked
 
-## Dataset
+## Datasets
 
 - https://sparse.tamu.edu/HB/nos4
 - https://sparse.tamu.edu/HB/bcsstk08
