@@ -1,6 +1,6 @@
 # How to Compile and Execute #
 
-### Make sure to set the right gpu architecture for your device in CMakeLists.txt
+> Note: Make sure to set the right gpu architecture for your device in CMakeLists.txt
 
 ```cpp
 mkdir build
