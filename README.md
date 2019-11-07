@@ -33,4 +33,4 @@ Possible kernel numbers:
 
 ## Documentation
 In docs folder you can find a report (in Italian) of the results achived using different configurations.
-In the same directory you there are some web resources used as support material for this project.
+In the same directory there are some web resources used as support material for this project.
